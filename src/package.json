@@ -1,0 +1,22 @@
+{
+  "name": "react-mw-address-book",
+  "version": "0.0.1",
+  "description": "Demonstration architecture to test react metawidget functionality",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+"dependencies": {
+    "express": "^4.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SDS-React-Metawidget/react-mw-address-book.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SDS-React-Metawidget/react-mw-address-book/issues"
+  },
+  "homepage": "https://github.com/SDS-React-Metawidget/react-mw-address-book#readme"
+}
