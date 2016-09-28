@@ -4,8 +4,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AddressBook from './components/AddressBook'
 
 ReactDOM.render(
-<h1>Hello, world!</h1>,
+    <AddressBook/>,
     document.getElementById('root')
 );
