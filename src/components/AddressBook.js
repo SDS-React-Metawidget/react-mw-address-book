@@ -4,12 +4,17 @@
 
 import React, {Component, PropTypes} from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Header from './Header'
 
 export default class AddressBook extends Component {
     render() {
         return (
             <MuiThemeProvider>
-                <h1>Hello, awesome world!</h1>
+                <div>
+                    <Header/>
+
+                    <h1>Hello, awesome world!</h1>
+                </div>
             </MuiThemeProvider>
         )
     }
