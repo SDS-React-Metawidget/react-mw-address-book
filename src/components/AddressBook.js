@@ -14,7 +14,7 @@ export default class AddressBook extends Component {
                 <div>
                     <Header/>
 
-                    <h1>Hello, awesome world!</h1>
+                    {this.props.children}
                 </div>
             </MuiThemeProvider>
         )

@@ -10,6 +10,7 @@ export default class Header extends Component {
         return (
             <AppBar
                 title="MetaWidget Address Book"
+                showMenuIconButton={false}
             />
         )
     }
