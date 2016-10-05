@@ -21,7 +21,6 @@ const getInitialAddresses = () => {
                 email: 'wilson@uts.edu.au'
             }
         ]))
-    console.log(JSON.parse(localStorage.getItem('addresses')))
     return JSON.parse(localStorage.getItem('addresses'))
 }
 

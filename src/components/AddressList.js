@@ -4,7 +4,6 @@
 
 import React, {Component} from 'react';
 import {Card, CardHeader} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
@@ -17,7 +16,6 @@ export default class AddressList extends Component {
                         <Card
                             key={index}
                             style={{marginTop: 20}}
-                            onClick={() => }
                         >
                             <CardHeader
                                 title={address.name}
@@ -30,6 +28,8 @@ export default class AddressList extends Component {
 
                 <FloatingActionButton
                     style={{right: 20, bottom: 20, position: "fixed"}}
+                    onClick={this.props.handleRoute}
+                    data-route="editAddress"
                 >
                     <ContentAdd />
                 </FloatingActionButton>
