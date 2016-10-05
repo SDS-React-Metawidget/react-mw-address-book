@@ -13,7 +13,7 @@ export default class AddressList extends Component {
 
                 {
                     this.props.addresses.map((address, index) => (
-                        <p>{address.name}: {address.email}</p>
+                        <p key={index}>{address.name}: {address.email}</p>
                     ))
                 }
             </Paper>
