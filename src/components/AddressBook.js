@@ -11,12 +11,18 @@ import AddressList from './AddressList'
 export default class AddressBook extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            activeRoute: <AddressList/>
+            activeRoute: (
+                <AddressList
+                    addresses={this.props.addresses}
+                />
+            )
         };
     }
 
     render() {
+        console.log(this.props.addresses)
         return (
             <MuiThemeProvider>
                 <div>

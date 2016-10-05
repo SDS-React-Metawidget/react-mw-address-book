@@ -10,7 +10,24 @@ import AddressBook from './components/AddressBook'
 
 injectTapEventPlugin();
 
+const getInitialAddresses = () => {
+    if (localStorage.getItem('addresses') === null)
+        localStorage.setItem('addresses', JSON.stringify([
+            {
+                name: 'Tim',
+                email: 'tim@uts.edu.au'
+            }, {
+                name: 'Wilson',
+                email: 'wilson@uts.edu.au'
+            }
+        ]))
+    console.log(JSON.parse(localStorage.getItem('addresses')))
+    return JSON.parse(localStorage.getItem('addresses'))
+}
+
 ReactDOM.render(
-    <AddressBook/>,
+    <AddressBook
+        addresses={getInitialAddresses()}
+    />,
     document.getElementById('root')
 );

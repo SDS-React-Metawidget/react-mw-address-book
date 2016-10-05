@@ -10,6 +10,12 @@ export default class AddressList extends Component {
         return (
             <Paper zDepth={1}>
                 <h1>We have an app</h1>
+
+                {
+                    this.props.addresses.map((address, index) => (
+                        <p>{address.name}: {address.email}</p>
+                    ))
+                }
             </Paper>
         )
     }
