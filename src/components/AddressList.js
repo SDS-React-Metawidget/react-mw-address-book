@@ -3,20 +3,37 @@
  */
 
 import React, {Component} from 'react';
-import Paper from 'material-ui/Paper';
+import {Card, CardHeader} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 export default class AddressList extends Component {
     render() {
         return (
-            <Paper zDepth={1}>
-                <h1>We have an app</h1>
-
+            <div style={{paddingLeft: 20, paddingRight: 20}}>
                 {
                     this.props.addresses.map((address, index) => (
-                        <p key={index}>{address.name}: {address.email}</p>
+                        <Card
+                            key={index}
+                            style={{marginTop: 20}}
+                            onClick={() => }
+                        >
+                            <CardHeader
+                                title={address.name}
+                                subtitle={address.email}
+                                avatar={`https://api.adorable.io/avatars/128/${address.email}.png`}
+                            />
+                        </Card>
                     ))
                 }
-            </Paper>
+
+                <FloatingActionButton
+                    style={{right: 20, bottom: 20, position: "fixed"}}
+                >
+                    <ContentAdd />
+                </FloatingActionButton>
+            </div>
         )
     }
 }
