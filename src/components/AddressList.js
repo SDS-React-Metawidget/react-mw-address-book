@@ -6,9 +6,9 @@ import React, {Component} from 'react';
 import {Card, CardHeader} from 'material-ui/Card';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import Search from 'material-ui/svg-icons/action/search';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+
+import ContactSearch from './ContactSearch'
 
 export default class AddressList extends Component {
     constructor(props) {
@@ -21,8 +21,8 @@ export default class AddressList extends Component {
         }
     }
 
-    handleSearch(e) {
-        let searchTerm = new RegExp(`.*${e.currentTarget.value.toLowerCase()}.*`)
+    handleSearch(searchField) {
+        let searchTerm = new RegExp(`.*${searchField.value.toLowerCase()}.*`)
 
         this.setState({
             filteredContacts: this.props.addresses.filter((address) => {
@@ -70,30 +70,9 @@ export default class AddressList extends Component {
     render() {
         return (
             <div>
-                <Paper
-                    style={{
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                        paddingTop: 5,
-                        paddingBottom: 5,
-                        display: "flex",
-                        alignItems: "center"
-                    }}
-                >
-                    <Search
-                        style={{
-                            width: 30,
-                            height: 30,
-                            marginRight: 10
-                        }}
-                    />
-
-                    <TextField
-                        hintText="Search"
-                        underlineShow={false}
-                        onChange={this.handleSearch}
-                    />
-                </Paper>
+                <ContactSearch
+                    handleSearch={this.handleSearch}
+                />
 
                 <div style={{paddingLeft: 20, paddingRight: 20}}>
                     {this.renderAddresses()}
