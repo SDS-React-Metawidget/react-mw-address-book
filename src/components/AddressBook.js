@@ -2,7 +2,7 @@
  * Created by alex on 28/09/2016.
  */
 
-import React, { Component, PropTypes } from 'react';
+import React, {Component, PropTypes} from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Header from './Header'
@@ -15,19 +15,28 @@ export default class AddressBook extends Component {
 
         this.state = {
             contacts: this.props.addresses,
+            activeContact: {name: ''},
             routes: {
-                addressList: () => (
-                    <AddressList
-                        addresses={this.state.contacts}
-                        handleRoute={this.handleRoute}
-                    />
-                ),
-                editAddress: (address) => (
-                    <EditAddress
-                        address={this.state.contacts.filter((el) => el.id === address)[0]}
-                        handleEditAddress={this.handleEditAddress}
-                    />
-                )
+                addressList: {
+                    route: () => (
+                        <AddressList
+                            addresses={this.state.contacts}
+                            handleRoute={this.handleRoute}
+                        />
+                    ),
+                    title: () => 'MetaWidget Address Book',
+                    showMenuIconButton: false
+                },
+                editAddress: {
+                    route: (address) => (
+                        <EditAddress
+                            address={this.state.activeContact}
+                            handleEditAddress={this.handleEditAddress}
+                        />
+                    ),
+                    title: () => `Edit ${this.state.activeContact.name}`,
+                    showMenuIconButton: true
+                }
             }
         };
 
@@ -37,7 +46,7 @@ export default class AddressBook extends Component {
 
     componentWillMount() {
         this.setState({
-            activeRoute: this.state.routes.addressList()
+            activeRoute: this.state.routes.addressList
         })
     }
 
@@ -46,7 +55,8 @@ export default class AddressBook extends Component {
         let route = e.currentTarget.dataset.route
         let contact = e.currentTarget.dataset.contact
         this.setState({
-            activeRoute: this.state.routes[route](contact === undefined ? null : contact)
+            activeRoute: this.state.routes[route],
+            activeContact: this.state.contacts.filter((el) => el.id === contact)[0]
         })
     }
 
@@ -81,9 +91,13 @@ export default class AddressBook extends Component {
         return (
             <MuiThemeProvider>
                 <div>
-                    <Header/>
+                    <Header
+                        title={this.state.activeRoute.title()}
+                        showMenuIconButton={this.state.activeRoute.showMenuIconButton}
+                        handleRoute={this.handleRoute}
+                    />
 
-                    {this.state.activeRoute}
+                    {this.state.activeRoute.route(this.state.activeContact)}
                 </div>
             </MuiThemeProvider>
         )

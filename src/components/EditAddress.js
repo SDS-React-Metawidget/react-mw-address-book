@@ -59,6 +59,17 @@ export default class EditAddress extends Component {
                                 onChange={this.props.handleEditAddress}
                             />
                         </div>
+
+                        <div>
+                            <TextField
+                                floatingLabelStyle={{left: 0}}
+                                floatingLabelText="Notes"
+                                defaultValue={this.props.address.notes}
+                                name="notes"
+                                onChange={this.props.handleEditAddress}
+                                multiLine={true}
+                            />
+                        </div>
                     </CardText>
                 </Card>
             </div>
