@@ -55,10 +55,12 @@ export default class AddressBook extends Component {
         let field = {},
             contactId = document.querySelector('#editContactContainer').dataset.contact
 
-        this.state.contacts = this.state.contacts.map((address) => {
-            if (address.id === contactId)
-                address[e.currentTarget.name] = e.currentTarget.value
-            return address
+        this.setState({
+            contacts: this.state.contacts.map((address) => {
+                if (address.id === contactId)
+                    address[e.currentTarget.name] = e.currentTarget.value
+                return address
+            })
         })
 
         localStorage.setItem(

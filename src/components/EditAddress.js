@@ -8,8 +8,11 @@ import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 
 export default class EditAddress extends Component {
-    render() {
+    componentDidMount() {
         console.log(this.props.address)
+    }
+
+    render() {
         return (
             <div
                 style={{padding: 20, textAlign: "center"}}
@@ -30,6 +33,15 @@ export default class EditAddress extends Component {
                     />
 
                     <CardText>
+                        <div>
+                            <TextField
+                                floatingLabelText="Name"
+                                defaultValue={this.props.address.name}
+                                name="name"
+                                onChange={this.props.handleEditAddress}
+                            />
+                        </div>
+
                         <div>
                             <TextField
                                 floatingLabelText="Email address"
