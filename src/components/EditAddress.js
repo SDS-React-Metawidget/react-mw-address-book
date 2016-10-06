@@ -11,7 +11,7 @@ export default class EditAddress extends Component {
     render() {
         return (
             <div
-                style={{padding: 20, textAlign: "center"}}
+                style={{padding: 20, textAlign: 'center'}}
                 data-contact={this.props.address.id}
                 id="editContactContainer"
             >

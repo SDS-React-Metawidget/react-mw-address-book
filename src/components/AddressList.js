@@ -38,7 +38,11 @@ export default class AddressList extends Component {
             return this.state.filteredContacts.map((address, index) => (
                 <Card
                     key={address.id}
-                    style={{marginTop: 20}}
+                    className="address-list-item"
+                    style={{
+                        marginTop: 20,
+                        cursor:'pointer'
+                    }}
                     data-contact={address.id}
                     data-route="editAddress"
                     onClick={this.props.handleRoute}
@@ -56,7 +60,7 @@ export default class AddressList extends Component {
             return (
                 <Paper
                     style={{
-                        textAlign: "center",
+                        textAlign: 'center',
                         padding: 15,
                         marginTop: 20
                     }}
@@ -78,7 +82,11 @@ export default class AddressList extends Component {
                     {this.renderAddresses()}
 
                     <FloatingActionButton
-                        style={{right: 20, bottom: 20, position: "fixed"}}
+                        style={{
+                            right: 20,
+                            bottom: 20,
+                            position: 'fixed'
+                        }}
                         onClick={this.props.handleRoute}
                         data-route="editAddress"
                     >

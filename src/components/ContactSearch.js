@@ -44,8 +44,8 @@ export default class ContactSearch extends Component {
                     paddingRight: 20,
                     paddingTop: 5,
                     paddingBottom: 5,
-                    display: "flex",
-                    alignItems: "center"
+                    display: 'flex',
+                    alignItems: 'center'
                 }}
             >
                 <Search
