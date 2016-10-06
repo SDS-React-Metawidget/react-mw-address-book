@@ -14,23 +14,25 @@ export default class AddressBook extends Component {
         super(props);
 
         this.state = {
+            contacts: this.props.addresses,
             routes: {
                 addressList: () => (
                     <AddressList
-                        addresses={this.props.addresses}
+                        addresses={this.state.contacts}
                         handleRoute={this.handleRoute}
                     />
                 ),
                 editAddress: (address) => (
                     <EditAddress
-                        address={this.props.addresses.filter((el) => el.id === address)[0]}
-                        addresses={this.props.addresses}
+                        address={this.state.contacts.filter((el) => el.id === address)[0]}
+                        handleEditAddress={this.handleEditAddress}
                     />
                 )
             }
         };
 
         this.handleRoute = this.handleRoute.bind(this)
+        this.handleEditAddress = this.handleEditAddress.bind(this)
     }
 
     componentWillMount() {
@@ -46,6 +48,31 @@ export default class AddressBook extends Component {
         this.setState({
             activeRoute: this.state.routes[route](contact === undefined ? null : contact)
         })
+    }
+
+    handleEditAddress(e) {
+        e.preventDefault()
+        let field = {},
+            contactId = document.querySelector('#editContactContainer').dataset.contact
+
+        this.state.contacts = this.state.contacts.map((address) => {
+            if (address.id === contactId)
+                address[e.currentTarget.name] = e.currentTarget.value
+            return address
+        })
+
+        localStorage.setItem(
+            'addresses',
+            JSON.stringify(this.state.contacts)
+        )
+    }
+
+    componentWillUnmount() {
+        console.log(this.state.contacts)
+        localStorage.setItem(
+            'addresses',
+            JSON.stringify(this.state.contacts)
+        )
     }
 
     render() {

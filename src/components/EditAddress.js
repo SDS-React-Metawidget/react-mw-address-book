@@ -11,7 +11,11 @@ export default class EditAddress extends Component {
     render() {
         console.log(this.props.address)
         return (
-            <div style={{padding: 20, textAlign: "center"}}>
+            <div
+                style={{padding: 20, textAlign: "center"}}
+                data-contact={this.props.address.id}
+                id="editContactContainer"
+            >
                 <Avatar
                     src={`https://api.adorable.io/avatars/128/${this.props.address.email}.png`}
                     size={128}
@@ -22,15 +26,27 @@ export default class EditAddress extends Component {
                 >
                     <CardTitle
                         title={this.props.address.name}
+                        subtitle="Contact details"
                     />
 
                     <CardText>
-                        <p>
+                        <div>
                             <TextField
                                 floatingLabelText="Email address"
                                 defaultValue={this.props.address.email}
+                                name="email"
+                                onChange={this.props.handleEditAddress}
                             />
-                        </p>
+                        </div>
+
+                        <div>
+                            <TextField
+                                floatingLabelText="Phone number"
+                                defaultValue={this.props.address.phone}
+                                name="phone"
+                                onChange={this.props.handleEditAddress}
+                            />
+                        </div>
                     </CardText>
                 </Card>
             </div>
