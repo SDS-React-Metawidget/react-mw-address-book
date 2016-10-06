@@ -18,12 +18,12 @@ export default class AddressBook extends Component {
                 addressList: () => (
                     <AddressList
                         addresses={this.props.addresses}
-                        handleNewAddress={this.handleRoute}
+                        handleRoute={this.handleRoute}
                     />
                 ),
                 editAddress: (address) => (
                     <EditAddress
-                        address={address}
+                        address={this.props.addresses.filter((el) => el.id === address)[0]}
                         addresses={this.props.addresses}
                     />
                 )
@@ -42,8 +42,9 @@ export default class AddressBook extends Component {
     handleRoute(e) {
         e.preventDefault()
         let route = e.currentTarget.dataset.route
+        let contact = e.currentTarget.dataset.contact
         this.setState({
-            activeRoute: this.state.routes[route]()
+            activeRoute: this.state.routes[route](contact === undefined ? null : contact)
         })
     }
 

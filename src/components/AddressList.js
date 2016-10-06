@@ -14,8 +14,11 @@ export default class AddressList extends Component {
                 {
                     this.props.addresses.map((address, index) => (
                         <Card
-                            key={index}
+                            key={address.id}
                             style={{marginTop: 20}}
+                            data-contact={address.id}
+                            data-route="editAddress"
+                            onClick={this.props.handleRoute}
                         >
                             <CardHeader
                                 title={address.name}

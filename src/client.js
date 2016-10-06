@@ -14,9 +14,11 @@ const getInitialAddresses = () => {
     if (localStorage.getItem('addresses') === null)
         localStorage.setItem('addresses', JSON.stringify([
             {
+                id: 'c0001',
                 name: 'Tim',
                 email: 'tim@uts.edu.au'
             }, {
+                id: 'c0002',
                 name: 'Wilson',
                 email: 'wilson@uts.edu.au'
             }

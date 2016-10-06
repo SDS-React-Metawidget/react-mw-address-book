@@ -3,35 +3,36 @@
  */
 
 import React, {Component} from 'react';
-import {Card, CardHeader} from 'material-ui/Card';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import {Card, CardTitle, CardText} from 'material-ui/Card';
+import Avatar from 'material-ui/Avatar';
+import TextField from 'material-ui/TextField';
 
 export default class EditAddress extends Component {
     render() {
+        console.log(this.props.address)
         return (
-            <div style={{paddingLeft: 20, paddingRight: 20}}>
-                <h1>Edit Address</h1>
-                {
-                    this.props.addresses.map((address, index) => (
-                        <Card
-                            key={index}
-                            style={{marginTop: 20}}
-                        >
-                            <CardHeader
-                                title={address.name}
-                                subtitle={address.email}
-                                avatar={`https://api.adorable.io/avatars/128/${address.email}.png`}
-                            />
-                        </Card>
-                    ))
-                }
+            <div style={{padding: 20, textAlign: "center"}}>
+                <Avatar
+                    src={`https://api.adorable.io/avatars/128/${this.props.address.email}.png`}
+                    size={128}
+                />
 
-                <FloatingActionButton
-                    style={{right: 20, bottom: 20, position: "fixed"}}
+                <Card
+                    style={{marginTop: 20}}
                 >
-                    <ContentAdd />
-                </FloatingActionButton>
+                    <CardTitle
+                        title={this.props.address.name}
+                    />
+
+                    <CardText>
+                        <p>
+                            <TextField
+                                floatingLabelText="Email address"
+                                defaultValue={this.props.address.email}
+                            />
+                        </p>
+                    </CardText>
+                </Card>
             </div>
         )
     }
