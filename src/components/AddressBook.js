@@ -4,6 +4,7 @@
 
 import React, {Component, PropTypes} from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import FlatButton from 'material-ui/FlatButton'
 
 import Header from './Header'
 import AddressList from './AddressList'
@@ -12,6 +13,10 @@ import EditAddress from './EditAddress'
 export default class AddressBook extends Component {
     constructor(props) {
         super(props);
+
+        this.handleRoute = this.handleRoute.bind(this)
+        this.handleEditAddress = this.handleEditAddress.bind(this)
+        this.handleDeleteContact = this.handleDeleteContact.bind(this)
 
         this.state = {
             contacts: this.props.addresses,
@@ -35,18 +40,21 @@ export default class AddressBook extends Component {
                         />
                     ),
                     title: () => `Edit ${this.state.activeContact.name}`,
-                    showMenuIconButton: true
+                    showMenuIconButton: true,
+                    iconElementRight: (
+                        <FlatButton
+                            label="Delete"
+                            onClick={this.handleDeleteContact}
+                        />
+                    )
                 }
             }
         };
-
-        this.handleRoute = this.handleRoute.bind(this)
-        this.handleEditAddress = this.handleEditAddress.bind(this)
     }
 
     componentWillMount() {
         this.setState({
-            activeRoute: this.state.routes.addressList
+            activeRoute: this.state.routes.addressList,
         })
     }
 
@@ -60,10 +68,24 @@ export default class AddressBook extends Component {
         })
     }
 
+    handleDeleteContact(e) {
+        e.preventDefault()
+        let contactId = document.querySelector('#editContactContainer').dataset.contact
+        this.setState({
+            contacts: this.state.contacts
+                .map((address) => {
+                    if (address.id !== contactId)
+                        return address
+                })
+                .filter((address) => address !== undefined),
+            activeRoute: this.state.routes['addressList'],
+            activeContact: {name: ''}
+        }, () => this.saveToFile())
+    }
+
     handleEditAddress(e) {
         e.preventDefault()
-        let field = {},
-            contactId = document.querySelector('#editContactContainer').dataset.contact
+        let contactId = document.querySelector('#editContactContainer').dataset.contact
 
         this.setState({
             contacts: this.state.contacts.map((address) => {
@@ -71,21 +93,16 @@ export default class AddressBook extends Component {
                     address[e.currentTarget.name] = e.currentTarget.value
                 return address
             })
-        })
+        }, () => this.saveToFile())
+    }
 
+    saveToFile() {
         localStorage.setItem(
             'addresses',
             JSON.stringify(this.state.contacts)
         )
     }
 
-    componentWillUnmount() {
-        console.log(this.state.contacts)
-        localStorage.setItem(
-            'addresses',
-            JSON.stringify(this.state.contacts)
-        )
-    }
 
     render() {
         return (
@@ -94,7 +111,9 @@ export default class AddressBook extends Component {
                     <Header
                         title={this.state.activeRoute.title()}
                         showMenuIconButton={this.state.activeRoute.showMenuIconButton}
+                        iconElementRight={this.state.activeRoute.iconElementRight}
                         handleRoute={this.handleRoute}
+                        handleDeleteContact={this.handleDeleteContact}
                     />
 
                     {this.state.activeRoute.route()}

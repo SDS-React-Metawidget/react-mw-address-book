@@ -8,10 +8,6 @@ import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 
 export default class EditAddress extends Component {
-    componentDidMount() {
-        console.log(this.props.address)
-    }
-
     render() {
         return (
             <div

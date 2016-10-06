@@ -21,6 +21,7 @@ export default class Header extends Component {
                         <NavigationArrowBack />
                     </IconButton>
                 )}
+                iconElementRight={this.props.iconElementRight}
             />
         )
     }

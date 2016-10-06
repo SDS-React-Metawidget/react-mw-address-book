@@ -15,12 +15,24 @@ const getInitialAddresses = () => {
         localStorage.setItem('addresses', JSON.stringify([
             {
                 id: 'c0001',
-                name: 'Tim',
-                email: 'tim@uts.edu.au'
+                name: 'Alex Dacre',
+                email: 'alexander.l.dacre@student.uts.edu.au'
             }, {
                 id: 'c0002',
-                name: 'Wilson',
-                email: 'wilson@uts.edu.au'
+                name: 'Ben Franzi',
+                email: 'benjamin.t.franzi@student.uts.edu.au'
+            }, {
+                id: 'c0003',
+                name: 'Jacob Vorreiter',
+                email: 'jacob.l.vorreiter@student.uts.edu.au'
+            }, {
+                id: 'c0004',
+                name: 'Tim Porritt',
+                email: 'timothy.m.porritt@student.uts.edu.au'
+            }, {
+                id: 'c0005',
+                name: 'Wilson Chen',
+                email: 'wilson.chen@student.uts.edu.au'
             }
         ]))
     return JSON.parse(localStorage.getItem('addresses'))
