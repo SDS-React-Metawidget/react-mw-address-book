@@ -5,13 +5,37 @@
 import React, {Component} from 'react';
 import {Card, CardHeader} from 'material-ui/Card';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
 import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import Search from 'material-ui/svg-icons/action/search';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 export default class AddressList extends Component {
+    constructor(props) {
+        super(props)
+
+        this.handleSearch = this.handleSearch.bind(this)
+
+        this.state = {
+            filteredContacts: this.props.addresses
+        }
+    }
+
+    handleSearch(e) {
+        let searchTerm = new RegExp(`.*${e.currentTarget.value.toLowerCase()}.*`)
+
+        this.setState({
+            filteredContacts: this.props.addresses.filter((address) => {
+                return [address.name, address.email].filter((field) =>
+                    searchTerm.test(field.toLowerCase())
+                ).length > 0
+            })
+        })
+    }
+
     renderAddresses() {
-        if (this.props.addresses.length > 0) {
-            return this.props.addresses.map((address, index) => (
+        if (this.state.filteredContacts.length > 0) {
+            return this.state.filteredContacts.map((address, index) => (
                 <Card
                     key={address.id}
                     style={{marginTop: 20}}
@@ -20,6 +44,7 @@ export default class AddressList extends Component {
                     onClick={this.props.handleRoute}
                 >
                     <CardHeader
+                        textStyle={{paddingRight: 0}}
                         title={address.name}
                         subtitle={address.email}
                         avatar={`https://api.adorable.io/avatars/128/${address.email}.png`}
@@ -30,7 +55,11 @@ export default class AddressList extends Component {
         else {
             return (
                 <Paper
-                    style={{textAlign: "center", padding: 15, marginTop: 20}}
+                    style={{
+                        textAlign: "center",
+                        padding: 15,
+                        marginTop: 20
+                    }}
                 >
                     No contacts
                 </Paper>
@@ -40,16 +69,43 @@ export default class AddressList extends Component {
 
     render() {
         return (
-            <div style={{paddingLeft: 20, paddingRight: 20}}>
-                {this.renderAddresses()}
-
-                <FloatingActionButton
-                    style={{right: 20, bottom: 20, position: "fixed"}}
-                    onClick={this.props.handleRoute}
-                    data-route="editAddress"
+            <div>
+                <Paper
+                    style={{
+                        paddingLeft: 20,
+                        paddingRight: 20,
+                        paddingTop: 5,
+                        paddingBottom: 5,
+                        display: "flex",
+                        alignItems: "center"
+                    }}
                 >
-                    <ContentAdd />
-                </FloatingActionButton>
+                    <Search
+                        style={{
+                            width: 30,
+                            height: 30,
+                            marginRight: 10
+                        }}
+                    />
+
+                    <TextField
+                        hintText="Search"
+                        underlineShow={false}
+                        onChange={this.handleSearch}
+                    />
+                </Paper>
+
+                <div style={{paddingLeft: 20, paddingRight: 20}}>
+                    {this.renderAddresses()}
+
+                    <FloatingActionButton
+                        style={{right: 20, bottom: 20, position: "fixed"}}
+                        onClick={this.props.handleRoute}
+                        data-route="editAddress"
+                    >
+                        <ContentAdd />
+                    </FloatingActionButton>
+                </div>
             </div>
         )
     }
