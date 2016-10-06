@@ -28,7 +28,7 @@ export default class AddressBook extends Component {
                     showMenuIconButton: false
                 },
                 editAddress: {
-                    route: (address) => (
+                    route: () => (
                         <EditAddress
                             address={this.state.activeContact}
                             handleEditAddress={this.handleEditAddress}
@@ -97,7 +97,7 @@ export default class AddressBook extends Component {
                         handleRoute={this.handleRoute}
                     />
 
-                    {this.state.activeRoute.route(this.state.activeContact)}
+                    {this.state.activeRoute.route()}
                 </div>
             </MuiThemeProvider>
         )
