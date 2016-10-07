@@ -88,7 +88,7 @@ export default class AddressList extends Component {
                             position: 'fixed'
                         }}
                         onClick={this.props.handleRoute}
-                        data-route="editAddress"
+                        data-route="addAddress"
                     >
                         <ContentAdd />
                     </FloatingActionButton>

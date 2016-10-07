@@ -62,10 +62,6 @@ export default class SaveSnackbar extends Component {
         return nextState !== this.state
     }
 
-    componentWillUpdate(nextProps, nextState) {
-
-    }
-
     createDoneTimeout() {
         this.doneTimeout = setTimeout(this.handleDoneTimeout, 1000)
     }
