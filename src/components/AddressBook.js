@@ -9,6 +9,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Header from './Header'
 import AddressList from './AddressList'
 import EditAddress from './EditAddress'
+import SaveSnackbar from './SaveSnackbar'
 
 export default class AddressBook extends Component {
     constructor(props) {
@@ -48,7 +49,9 @@ export default class AddressBook extends Component {
                         />
                     )
                 }
-            }
+            },
+            snackbarOpen: false,
+            snackbarMessage: 'edit',
         };
     }
 
@@ -63,6 +66,7 @@ export default class AddressBook extends Component {
         let route = e.currentTarget.dataset.route
         let contact = e.currentTarget.dataset.contact
         this.setState({
+            snackbarOpen: false,
             activeRoute: this.state.routes[route],
             activeContact: this.state.contacts.filter((el) => el.id === contact)[0]
         })
@@ -72,6 +76,8 @@ export default class AddressBook extends Component {
         e.preventDefault()
         let contactId = document.querySelector('#editContactContainer').dataset.contact
         this.setState({
+            snackbarOpen: true,
+            snackbarMessage: 'Deleting contact',
             contacts: this.state.contacts
                 .map((address) => {
                     if (address.id !== contactId)
@@ -85,9 +91,12 @@ export default class AddressBook extends Component {
 
     handleEditAddress(e) {
         e.preventDefault()
+
         let contactId = document.querySelector('#editContactContainer').dataset.contact
 
         this.setState({
+            snackbarOpen: true,
+            snackbarMessage: 'Saving contact',
             contacts: this.state.contacts.map((address) => {
                 if (address.id === contactId)
                     address[e.currentTarget.name] = e.currentTarget.value
@@ -103,7 +112,6 @@ export default class AddressBook extends Component {
         )
     }
 
-
     render() {
         return (
             <MuiThemeProvider>
@@ -117,6 +125,11 @@ export default class AddressBook extends Component {
                     />
 
                     {this.state.activeRoute.route()}
+
+                    <SaveSnackbar
+                        open={this.state.snackbarOpen}
+                        message={this.state.snackbarMessage}
+                    />
                 </div>
             </MuiThemeProvider>
         )

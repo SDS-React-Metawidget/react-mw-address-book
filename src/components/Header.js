@@ -12,6 +12,7 @@ export default class Header extends Component {
         return (
             <AppBar
                 title={this.props.title}
+                titleStyle={{textAlign: 'center'}}
                 showMenuIconButton={this.props.showMenuIconButton}
                 iconElementLeft={(
                     <IconButton

@@ -9,3 +9,9 @@ body {
     position: relative;
     top: -2px;
 }
+
+.icon--spin {
+    animation:spin 2s linear infinite;
+}
+
+@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
