@@ -9,6 +9,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Header from './Header'
 import AddressList from './AddressList'
 import EditAddress from './EditAddress'
+import AddAddress from './AddAddress'
 import SaveSnackbar from './SaveSnackbar'
 
 export default class AddressBook extends Component {
@@ -17,6 +18,7 @@ export default class AddressBook extends Component {
 
         this.handleRoute = this.handleRoute.bind(this)
         this.handleEditAddress = this.handleEditAddress.bind(this)
+        this.handleAddAddress = this.handleAddAddress.bind(this)
         this.handleDeleteContact = this.handleDeleteContact.bind(this)
 
         this.state = {
@@ -48,6 +50,16 @@ export default class AddressBook extends Component {
                             onClick={this.handleDeleteContact}
                         />
                     )
+                },
+                addAddress: {
+                    route: () => (
+                        <AddAddress
+                            address={this.state.activeContact}
+                            handleAddAddress={this.handleAddAddress}
+                        />
+                    ),
+                    title: () => 'New Contact',
+                    showMenuIconButton: true,
                 }
             },
             snackbarOpen: false,
@@ -103,6 +115,10 @@ export default class AddressBook extends Component {
                 return address
             })
         }, () => this.saveToFile())
+    }
+
+    handleAddAddress(e) {
+      e.preventDefault()
     }
 
     saveToFile() {
