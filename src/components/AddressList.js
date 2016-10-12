@@ -85,7 +85,8 @@ export default class AddressList extends Component {
                         style={{
                             right: 20,
                             bottom: 20,
-                            position: 'fixed'
+                            position: 'fixed',
+                            zIndex: 3000
                         }}
                         onClick={this.props.handleRoute}
                         data-route="addAddress"
