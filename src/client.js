@@ -4,9 +4,12 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import metawidget from 'metawidget';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import AddressBook from './components/AddressBook'
+import {MetaWidget, reactmw} from './lib/react-metawidget';
+
+import AddressBook from './components/AddressBook';
 
 injectTapEventPlugin();
 
@@ -39,11 +42,43 @@ const getInitialAddresses = () => {
             ])
         )
     return JSON.parse(localStorage.getItem('addresses'))
-}
-
+};
+const schema = {
+    properties: {
+        name: {
+            type: "string",
+            required: true,
+            placeholder: "Name",
+            checkValid: true,
+            maxLength: 10,
+            //readOnly:true,
+            value: "Jerry"
+        },
+        age: {
+            type: "number",
+            placeholder: "Age",
+            min: 0,
+            max: 150,
+        },
+        retired: {
+            type: "boolean",
+            //checked: true,
+        },
+        birthday: {
+            type: "date",
+        },
+    },
+};
 ReactDOM.render(
-    <AddressBook
-        addresses={getInitialAddresses()}
+    <MetaWidget
+        inspector={new metawidget.inspector.JsonSchemaInspector(schema)}
     />,
-    document.getElementById('root')
+    document.getElementById("root")
 );
+
+//ReactDOM.render(
+//    <AddressBook
+//        addresses={getInitialAddresses()}
+//    />,
+//    document.getElementById('root')
+//);
