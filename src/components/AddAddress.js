@@ -8,21 +8,22 @@ import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 
 export default class AddAddress extends Component {
-  constructor() {
-    super()
+    constructor(props) {
+        super(props)
 
-    this.state = {
-      id: this.generateId()
+        this.state = {
+            id: this.generateId()
+        }
     }
-  }
 
-  generateId() {
-    let n = JSON.parse(localStorage['addresses']).reduce((pre, cur, i) =>
-      pre > Number(cur.substr(1)) ? pre : Number(cur.substr(1))
-    , 0)
-    let pad = n.length >= 4 ? n : new Array(4 - n.length + 1).join('0') + n;
-    return 'c' +  pad;
-  }
+    generateId() {
+        let n = JSON.parse(localStorage['addresses']).reduce((pre, cur, i) =>
+                pre > Number(cur.substr(1)) ? pre : Number(cur.substr(1))
+            , 0)
+        let pad = n.length >= 4 ? n : new Array(4 - n.length + 1).join('0') + n;
+        return 'c' + pad;
+    }
+
     render() {
         return (
             <div
@@ -31,9 +32,11 @@ export default class AddAddress extends Component {
                 id="editContactContainer"
             >
                 <Avatar
-                    src={`https://api.adorable.io/avatars/128/${
-                      this.refs.email === undefined ? 'new' : this.refs.email.input.value
-                    }.png`}
+                    src={
+                        `https://api.adorable.io/avatars/128/${
+                            this.refs.email === undefined ? 'newContact' : this.refs.email.input.value
+                        }.png`
+                    }
                     size={128}
                 />
 

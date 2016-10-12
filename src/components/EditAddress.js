@@ -6,8 +6,28 @@ import React, {Component} from 'react';
 import {Card, CardTitle, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
+import IconButton from 'material-ui/IconButton'
+import Edit from 'material-ui/svg-icons/image/edit'
 
 export default class EditAddress extends Component {
+    constructor(props) {
+        super(props)
+
+        this.handleClick = this.handleClick.bind(this)
+
+        this.state = {
+            edit: false
+        }
+    }
+
+    handleClick(e) {
+        this.setState({
+            edit: !this.state.edit
+        }, () => {
+            if (this.state.edit) this.refs.firstField.input.focus()
+        })
+    }
+
     render() {
         return (
             <div
@@ -24,8 +44,21 @@ export default class EditAddress extends Component {
                     style={{marginTop: 20}}
                 >
                     <CardTitle
-                        title={this.props.address.name}
+                        title={`${this.state.edit ? 'Edit ' : '' }${this.props.address.name}`}
                         subtitle="Contact details"
+                        children={(
+                            <IconButton
+                                style={{
+                                    position: 'absolute',
+                                    top: 10,
+                                    right: 10
+                                }}
+                                tooltip="Edit address"
+                                onClick={this.handleClick}
+                            >
+                                <Edit/>
+                            </IconButton>
+                        )}
                     />
 
                     <CardText>
@@ -34,7 +67,11 @@ export default class EditAddress extends Component {
                                 floatingLabelText="Name"
                                 defaultValue={this.props.address.name}
                                 name="name"
+                                ref="firstField"
                                 onChange={this.props.handleEditAddress}
+                                disabled={!this.state.edit}
+                                underlineShow={this.state.edit}
+                                inputStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
                             />
                         </div>
 
@@ -44,6 +81,9 @@ export default class EditAddress extends Component {
                                 defaultValue={this.props.address.email}
                                 name="email"
                                 onChange={this.props.handleEditAddress}
+                                disabled={!this.state.edit}
+                                underlineShow={this.state.edit}
+                                inputStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
                             />
                         </div>
 
@@ -53,6 +93,9 @@ export default class EditAddress extends Component {
                                 defaultValue={this.props.address.phone}
                                 name="phone"
                                 onChange={this.props.handleEditAddress}
+                                disabled={!this.state.edit}
+                                underlineShow={this.state.edit}
+                                inputStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
                             />
                         </div>
 
@@ -63,7 +106,10 @@ export default class EditAddress extends Component {
                                 defaultValue={this.props.address.notes}
                                 name="notes"
                                 onChange={this.props.handleEditAddress}
-                                multiLine={true}
+                                multiLine={true} disabled={!this.state.edit}
+                                underlineShow={this.state.edit}
+                                inputStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
+                                textareaStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
                             />
                         </div>
                     </CardText>
