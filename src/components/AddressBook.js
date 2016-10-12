@@ -54,7 +54,7 @@ export default class AddressBook extends Component {
                 addAddress: {
                     route: () => (
                         <AddAddress
-                            address={this.state.activeContact}
+                            address={{}}
                             handleAddAddress={this.handleAddAddress}
                         />
                     ),
@@ -119,6 +119,30 @@ export default class AddressBook extends Component {
 
     handleAddAddress(e) {
       e.preventDefault()
+      // var newId = "c1000"//this.generateId()
+
+      let contactId = document.querySelector('#editContactContainer').dataset.contact
+
+      this.setState({
+          snackbarOpen: true,
+          snackbarMessage: 'Saving new contact',
+          contacts: this.addAddress(contactId, e.currentTarget.name, e.currentTarget.value)
+      }, () => this.saveToFile())
+
+      console.log(this.state)
+    }
+
+    addAddress(contactId, fieldName, fieldValue) {
+      if (this.state.contacts.filter(address => address.id === contactId).length > 0)
+        return this.state.contacts.map((address) => {
+          if (address.id === contactId)
+              address[fieldName] = fieldValue
+          return address
+        })
+      let newAddress = {id: contactId}
+      newAddress[fieldName] = fieldValue
+      this.state.contacts.push(newAddress)
+      return this.state.contacts
     }
 
     saveToFile() {
