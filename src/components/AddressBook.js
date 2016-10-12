@@ -9,6 +9,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Header from './Header'
 import AddressList from './AddressList'
 import EditAddress from './EditAddress'
+import AddAddress from './AddAddress'
 import SaveSnackbar from './SaveSnackbar'
 
 export default class AddressBook extends Component {
@@ -17,6 +18,7 @@ export default class AddressBook extends Component {
 
         this.handleRoute = this.handleRoute.bind(this)
         this.handleEditAddress = this.handleEditAddress.bind(this)
+        this.handleAddAddress = this.handleAddAddress.bind(this)
         this.handleDeleteContact = this.handleDeleteContact.bind(this)
 
         this.state = {
@@ -48,6 +50,16 @@ export default class AddressBook extends Component {
                             onClick={this.handleDeleteContact}
                         />
                     )
+                },
+                addAddress: {
+                    route: () => (
+                        <AddAddress
+                            address={{}}
+                            handleAddAddress={this.handleAddAddress}
+                        />
+                    ),
+                    title: () => 'New Contact',
+                    showMenuIconButton: true,
                 }
             },
             snackbarOpen: false,
@@ -103,6 +115,34 @@ export default class AddressBook extends Component {
                 return address
             })
         }, () => this.saveToFile())
+    }
+
+    handleAddAddress(e) {
+      e.preventDefault()
+      // var newId = "c1000"//this.generateId()
+
+      let contactId = document.querySelector('#editContactContainer').dataset.contact
+
+      this.setState({
+          snackbarOpen: true,
+          snackbarMessage: 'Saving new contact',
+          contacts: this.addAddress(contactId, e.currentTarget.name, e.currentTarget.value)
+      }, () => this.saveToFile())
+
+      console.log(this.state)
+    }
+
+    addAddress(contactId, fieldName, fieldValue) {
+      if (this.state.contacts.filter(address => address.id === contactId).length > 0)
+        return this.state.contacts.map((address) => {
+          if (address.id === contactId)
+              address[fieldName] = fieldValue
+          return address
+        })
+      let newAddress = {id: contactId}
+      newAddress[fieldName] = fieldValue
+      this.state.contacts.push(newAddress)
+      return this.state.contacts
     }
 
     saveToFile() {
