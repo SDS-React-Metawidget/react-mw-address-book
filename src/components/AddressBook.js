@@ -110,11 +110,7 @@ export default class AddressBook extends Component {
         this.setState({
             snackbarOpen: true,
             snackbarMessage: 'Saving contact',
-            contacts: this.state.contacts.map((address) => {
-                if (address.id === contactId)
-                    address[e.currentTarget.name] = e.currentTarget.value
-                return address
-            })
+            contacts: this.editAddress(contactId, e.currentTarget.name, e.currentTarget.value)
         }, () => this.saveToFile())
     }
 
@@ -131,6 +127,17 @@ export default class AddressBook extends Component {
         }, () => this.saveToFile())
     }
 
+    editAddress(contactId, fieldName, fieldValue) {
+        let contacts = this.state.contacts.map((address) => {
+            if (address.id === contactId)
+                address[fieldName] = fieldValue
+            return address
+        })
+        if (fieldName === 'name')
+            return contacts.sort(this.compareAddresses)
+        return contacts
+    }
+
     addAddress(contactId, fieldName, fieldValue) {
         if (this.state.contacts.filter(address => address.id === contactId).length > 0)
             return this.state.contacts.map((address) => {
@@ -141,6 +148,7 @@ export default class AddressBook extends Component {
         let newAddress = {id: contactId}
         newAddress[fieldName] = fieldValue
         this.state.contacts.push(newAddress)
+        this.state.contacts.sort(this.compareAddresses)
         return this.state.contacts
     }
 
@@ -149,6 +157,16 @@ export default class AddressBook extends Component {
             'addresses',
             JSON.stringify(this.state.contacts)
         )
+    }
+
+    compareAddresses(a, b) {
+        let aName = a.name.toLowerCase()
+        let bName = b.name.toLowerCase()
+        if (aName < bName)
+            return -1
+        if (aName > bName)
+            return 1
+        return 0
     }
 
     render() {
