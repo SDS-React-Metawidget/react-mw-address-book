@@ -18,7 +18,7 @@ export default class AddAddress extends Component {
 
     generateId() {
         let n = '' + JSON.parse(localStorage['addresses']).reduce((pre, cur, i) =>
-                pre >= Number(cur.id.substr(1)) ? pre : Number(cur.id.substr(1) + 1)
+                pre > Number(cur.id.substr(1)) ? pre : Number(cur.id.substr(1)) + 1
             , 0)
 
         let pad = n.length >= 4 ? n : new Array(4 - n.length + 1).join('0') + n;

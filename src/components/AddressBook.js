@@ -129,8 +129,6 @@ export default class AddressBook extends Component {
             snackbarMessage: 'Saving new contact',
             contacts: this.addAddress(contactId, e.currentTarget.name, e.currentTarget.value)
         }, () => this.saveToFile())
-
-        console.log(this.state)
     }
 
     addAddress(contactId, fieldName, fieldValue) {
