@@ -6,11 +6,6 @@ __address_book_title__ = "Hello, world"
 
 def before_all(context):
     context.server = webdriver.Chrome()
-    try:
-        context.server.get("localhost:3000")
-        time.sleep(10)
-    except:
-        raise
 
 def after_all(context):
     context.server.quit()
