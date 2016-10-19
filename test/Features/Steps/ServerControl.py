@@ -1,10 +1,10 @@
 from behave import given, when, then
 import time
 
-@given('the server is running')
-def server_is_up(context):
+@given('we navigate to the page "{page}"')
+def server_is_up(context, page):
     try:
-        context.server.get("localhost:3000")
-        time.sleep(10)
+        context.server.get(page)
+        time.sleep(5)
     except:
         raise
