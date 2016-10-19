@@ -114,7 +114,6 @@ export default class EditAddress extends Component {
                                 textareaStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
                             />
                         </div>
-*/}
                         
     <MetaWidget
 		toInspect={this.props.address}
