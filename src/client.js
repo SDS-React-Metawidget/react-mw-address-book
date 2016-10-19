@@ -4,6 +4,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {a as MetaWidget, reactmw as metawidget} from './js/react-metawidget'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import AddressBook from './components/AddressBook'
@@ -40,6 +41,7 @@ const getInitialAddresses = () => {
         )
     return JSON.parse(localStorage.getItem('addresses'))
 }
+
 
 ReactDOM.render(
     <AddressBook
