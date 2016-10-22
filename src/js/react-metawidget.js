@@ -1,6 +1,7 @@
-import metawidget from 'metawidget';
+metawidget = require('metawidget');
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 'use strict'
 
 var DOMProperties = ["accept","acceptCharset","accessKey","action","allowFullScreen","allowTransparency","alt",
@@ -180,56 +181,20 @@ var Output = React.createClass({
     }
 });
 
-var Rating = React.createClass({
-	getInitialState: function() {
-		return {
-			rating: this.props.value || 2,
-		};
-	},
-	
-	rate: function(e) {
-		this.setState({
-			rating: e.currentTarget.attributes["data-value"].value,
-		});
-	},
-	
-	render: function (){
-		var arr = [];
-		for(var i = 1; i <= 5; i++)
-		{
-			var src = this.state.rating >= i ? "img/filledStar.png" : "img/emptyStar.png";
-			var inner = <img src={src} width="20px"/>;
-			arr.push(<span key={i}>
-						<b data-value={i}
-						   onClick={this.rate}
-						   style={{cursor:"pointer",}}>
-							{inner}
-						</b>
-						&nbsp;
-					</span>);
-		}
-		return <span>{arr}</span>;
-	}
-});
-
-var reactmw = reactmw || {};
+var metawidget = metawidget || {};
 
 'use strict';
 
-reactmw.react = reactmw.react || {}
+metawidget.react = metawidget.react || {}
 
-reactmw.react.ReactMetawidget = function (element, config) {
+metawidget.react.ReactMetawidget = function (element, config) {
 
-    if (!( this instanceof reactmw.react.ReactMetawidget )) {
+    if (!( this instanceof metawidget.react.ReactMetawidget )) {
         throw new Error('Constructor called as a function');
     }
 
     var _overriddenNodes = [];
 
-    
-    if (!element) {
-        throw new Error('No element found');
-    }
     while (element.childNodes.length > 0) {
         var childNode = element.childNodes[0];
         element.removeChild(childNode);
@@ -238,7 +203,6 @@ reactmw.react.ReactMetawidget = function (element, config) {
             _overriddenNodes.push(childNode);
         }
     }
-    
 
     var _pipeline = new metawidget.Pipeline(element);
     _pipeline.configure(config);
@@ -302,7 +266,7 @@ reactmw.react.ReactMetawidget = function (element, config) {
         // Metawidget. This neatly passes everything down, including a
         // decremented 'maximumInspectionDepth'
 
-        var nestedMetawidget = new reactmw.react.ReactMetawidget(nestedWidget, [_pipeline, config]);
+        var nestedMetawidget = new metawidget.react.ReactMetawidget(nestedWidget, [_pipeline, config]);
         nestedMetawidget.toInspect = this.toInspect;
         nestedMetawidget.path = metawidget.util.appendPath(attributes, this);
         nestedMetawidget.readOnly = this.readOnly || metawidget.util.isTrueOrTrueString(attributes.readOnly);
@@ -316,7 +280,7 @@ reactmw.react.ReactMetawidget = function (element, config) {
 
 			return _pipeline.getWidgetProcessor( function( widgetProcessor ) {
 
-				return widgetProcessor instanceof reactmw.react.widgetprocessor.ReactBindingProcessor;
+				return widgetProcessor instanceof metawidget.react.widgetprocessor.ReactBindingProcessor;
 			} ).save( t );
 		};
 		
@@ -330,11 +294,11 @@ reactmw.react.ReactMetawidget = function (element, config) {
 	}
 }
 
-reactmw.react.widgetbuilder = reactmw.react.widgetbuilder || {}
+metawidget.react.widgetbuilder = metawidget.react.widgetbuilder || {}
 
-reactmw.react.widgetbuilder.ReactWidgetBuilder = function (config) {
+metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
 
-    if (!( this instanceof reactmw.react.widgetbuilder.ReactWidgetBuilder )) {
+    if (!( this instanceof metawidget.react.widgetbuilder.ReactWidgetBuilder )) {
         throw new Error('Constructor called as a function');
     }
 
@@ -442,12 +406,6 @@ reactmw.react.widgetbuilder.ReactWidgetBuilder = function (config) {
                         {options: attributes["enum"]}
                     ]
                 },
-                rating: {
-                    parameters: {
-                        type: (e) => e === 'rating'
-                    },
-                    result: [Rating, {}]
-                },
                 output: {
                     parameters: {
                         readOnly: (e) => e === true
@@ -479,11 +437,11 @@ reactmw.react.widgetbuilder.ReactWidgetBuilder = function (config) {
     };
 };
 
-reactmw.react.layout = reactmw.react.layout || {};
+metawidget.react.layout = metawidget.react.layout || {};
 
-reactmw.react.layout.ReactRenderDecorator = function (config) {
+metawidget.react.layout.ReactRenderDecorator = function (config) {
 
-    if (!( this instanceof reactmw.react.layout.ReactRenderDecorator)) {
+    if (!( this instanceof metawidget.react.layout.ReactRenderDecorator)) {
         throw new Error('Constructor called as a function');
     }
 
@@ -524,15 +482,15 @@ reactmw.react.layout.ReactRenderDecorator = function (config) {
 //Various processors for 'volatile' attributes
 //Could be combined into a single one?
 metawidget.widgetprocessor = metawidget.widgetprocessor || {};
-reactmw.react.widgetprocessor = reactmw.react.widgetprocessor || {};
+metawidget.react.widgetprocessor = metawidget.react.widgetprocessor || {};
 
-reactmw.react.widgetprocessor.ValueAttributeProcessor = function () {
+metawidget.react.widgetprocessor.ValueAttributeProcessor = function () {
 
-    if (!( this instanceof reactmw.react.widgetprocessor.ValueAttributeProcessor )) {
+    if (!( this instanceof metawidget.react.widgetprocessor.ValueAttributeProcessor )) {
         throw new Error('Constructor called as a function');
     }
 };
-reactmw.react.widgetprocessor.ValueAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes, mw) {
+metawidget.react.widgetprocessor.ValueAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes, mw) {
 	
 	//Get value from toInspect object
 	var value;
@@ -568,13 +526,13 @@ reactmw.react.widgetprocessor.ValueAttributeProcessor.prototype.processWidget = 
     return widget;
 };
 
-reactmw.react.widgetprocessor.MaxLengthAttributeProcessor = function () {
+metawidget.react.widgetprocessor.MaxLengthAttributeProcessor = function () {
 
-    if (!( this instanceof reactmw.react.widgetprocessor.MaxLengthAttributeProcessor )) {
+    if (!( this instanceof metawidget.react.widgetprocessor.MaxLengthAttributeProcessor )) {
         throw new Error('Constructor called as a function');
     }
 };
-reactmw.react.widgetprocessor.MaxLengthAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes) {
+metawidget.react.widgetprocessor.MaxLengthAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes) {
 
     if (attributes.maxLength !== undefined) {
         if (React.isValidElement(widget))
@@ -584,13 +542,13 @@ reactmw.react.widgetprocessor.MaxLengthAttributeProcessor.prototype.processWidge
     return widget;
 };
 
-reactmw.react.widgetprocessor.MaxAttributeProcessor = function () {
+metawidget.react.widgetprocessor.MaxAttributeProcessor = function () {
 
-    if (!( this instanceof reactmw.react.widgetprocessor.MaxAttributeProcessor )) {
+    if (!( this instanceof metawidget.react.widgetprocessor.MaxAttributeProcessor )) {
         throw new Error('Constructor called as a function');
     }
 };
-reactmw.react.widgetprocessor.MaxAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes) {
+metawidget.react.widgetprocessor.MaxAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes) {
 
     if (attributes.max !== undefined) {
         if (React.isValidElement(widget))
@@ -600,13 +558,13 @@ reactmw.react.widgetprocessor.MaxAttributeProcessor.prototype.processWidget = fu
     return widget;
 };
 
-reactmw.react.widgetprocessor.MinAttributeProcessor = function () {
+metawidget.react.widgetprocessor.MinAttributeProcessor = function () {
 
-    if (!( this instanceof reactmw.react.widgetprocessor.MinAttributeProcessor )) {
+    if (!( this instanceof metawidget.react.widgetprocessor.MinAttributeProcessor )) {
         throw new Error('Constructor called as a function');
     }
 };
-reactmw.react.widgetprocessor.MinAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes) {
+metawidget.react.widgetprocessor.MinAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes) {
 
     if (attributes.min !== undefined) {
         if (React.isValidElement(widget))
@@ -616,13 +574,13 @@ reactmw.react.widgetprocessor.MinAttributeProcessor.prototype.processWidget = fu
     return widget;
 };
 
-reactmw.react.widgetprocessor.DisabledAttributeProcessor = function () {
+metawidget.react.widgetprocessor.DisabledAttributeProcessor = function () {
 
-    if (!( this instanceof reactmw.react.widgetprocessor.DisabledAttributeProcessor )) {
+    if (!( this instanceof metawidget.react.widgetprocessor.DisabledAttributeProcessor )) {
         throw new Error('Constructor called as a function');
     }
 };
-reactmw.react.widgetprocessor.DisabledAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes) {
+metawidget.react.widgetprocessor.DisabledAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes) {
 
     if (attributes.disabled !== undefined) {
         if (React.isValidElement(widget))
@@ -632,13 +590,13 @@ reactmw.react.widgetprocessor.DisabledAttributeProcessor.prototype.processWidget
     return widget;
 };
 
-reactmw.react.widgetprocessor.PlaceholderAttributeProcessor = function () {
+metawidget.react.widgetprocessor.PlaceholderAttributeProcessor = function () {
 
-    if (!( this instanceof reactmw.react.widgetprocessor.PlaceholderAttributeProcessor )) {
+    if (!( this instanceof metawidget.react.widgetprocessor.PlaceholderAttributeProcessor )) {
         throw new Error('Constructor called as a function');
     }
 };
-reactmw.react.widgetprocessor.PlaceholderAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes) {
+metawidget.react.widgetprocessor.PlaceholderAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes) {
 
     if (attributes.placeholder !== undefined) {
         if (React.isValidElement(widget))
@@ -648,13 +606,13 @@ reactmw.react.widgetprocessor.PlaceholderAttributeProcessor.prototype.processWid
     return widget;
 };
 
-reactmw.react.widgetprocessor.RequiredAttributeProcessor = function () {
+metawidget.react.widgetprocessor.RequiredAttributeProcessor = function () {
 
-    if (!( this instanceof reactmw.react.widgetprocessor.RequiredAttributeProcessor )) {
+    if (!( this instanceof metawidget.react.widgetprocessor.RequiredAttributeProcessor )) {
         throw new Error('Constructor called as a function');
     }
 };
-reactmw.react.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes) {
+metawidget.react.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes) {
 
     if (attributes.required !== undefined) {
         if (React.isValidElement(widget))
@@ -664,13 +622,13 @@ reactmw.react.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget
     return widget;
 };
 
-reactmw.react.widgetprocessor.IdProcessor = function () {
+metawidget.react.widgetprocessor.IdProcessor = function () {
 
-    if (!( this instanceof reactmw.react.widgetprocessor.IdProcessor )) {
+    if (!( this instanceof metawidget.react.widgetprocessor.IdProcessor )) {
         throw new Error('Constructor called as a function');
     }
 };
-reactmw.react.widgetprocessor.IdProcessor.prototype.processWidget = function (widget, elementName, attributes) {
+metawidget.react.widgetprocessor.IdProcessor.prototype.processWidget = function (widget, elementName, attributes) {
 
     if (attributes.id !== undefined) {
         if (React.isValidElement(widget))
@@ -680,14 +638,14 @@ reactmw.react.widgetprocessor.IdProcessor.prototype.processWidget = function (wi
     return widget;
 };
 
-reactmw.react.widgetprocessor.ReactBindingProcessor = function () {
+metawidget.react.widgetprocessor.ReactBindingProcessor = function () {
 
-    if (!( this instanceof reactmw.react.widgetprocessor.ReactBindingProcessor )) {
+    if (!( this instanceof metawidget.react.widgetprocessor.ReactBindingProcessor )) {
         throw new Error('Constructor called as a function');
     }
 	this.holder = {};
 };
-reactmw.react.widgetprocessor.ReactBindingProcessor.prototype.processWidget = function (widget, elementName, attributes, mw) {
+metawidget.react.widgetprocessor.ReactBindingProcessor.prototype.processWidget = function (widget, elementName, attributes, mw) {
 
 	var t = this;
 	if(React.isValidElement(widget))
@@ -727,18 +685,18 @@ function copyAcross(toThis, fromThis)
 		tempLayer[splitKey[splitKey.length-1]] = fromThis[bigkey];
 	}
 }
-reactmw.react.widgetprocessor.ReactBindingProcessor.prototype.save = function (mw) {
+metawidget.react.widgetprocessor.ReactBindingProcessor.prototype.save = function (mw) {
 
 	copyAcross(mw.toInspect, this.holder);
 	console.log(mw.toInspect);
     return true;
 };
 
-var a = React.createClass({
+var MetaWidget = React.createClass({
     propTypes: {
         inspector: React.PropTypes.object,
         widgetBuilder: React.PropTypes.object,
-        widgetProcessors: React.PropTypes.arrayOf(React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.func])),
+        widgetProcessors: React.PropTypes.arrayOf(React.PropTypes.object),
         layout: React.PropTypes.object
     },
 
@@ -747,19 +705,19 @@ var a = React.createClass({
 			toInspect:{},
             inspector: new metawidget.inspector.PropertyTypeInspector(),
             widgetBuilder: new metawidget.widgetbuilder.CompositeWidgetBuilder([
-                new reactmw.react.widgetbuilder.ReactWidgetBuilder()
+                new metawidget.react.widgetbuilder.ReactWidgetBuilder()
             ]),
             widgetProcessors: [
-                new reactmw.react.widgetprocessor.IdProcessor(),
-                new reactmw.react.widgetprocessor.RequiredAttributeProcessor(),
-                new reactmw.react.widgetprocessor.PlaceholderAttributeProcessor(),
-                new reactmw.react.widgetprocessor.DisabledAttributeProcessor(),
-                new reactmw.react.widgetprocessor.MaxLengthAttributeProcessor(),
-                new reactmw.react.widgetprocessor.MaxAttributeProcessor(),
-                new reactmw.react.widgetprocessor.MinAttributeProcessor(),
-                new reactmw.react.widgetprocessor.ValueAttributeProcessor()
+                new metawidget.react.widgetprocessor.IdProcessor(),
+                new metawidget.react.widgetprocessor.RequiredAttributeProcessor(),
+                new metawidget.react.widgetprocessor.PlaceholderAttributeProcessor(),
+                new metawidget.react.widgetprocessor.DisabledAttributeProcessor(),
+                new metawidget.react.widgetprocessor.MaxLengthAttributeProcessor(),
+                new metawidget.react.widgetprocessor.MaxAttributeProcessor(),
+                new metawidget.react.widgetprocessor.MinAttributeProcessor(),
+                new metawidget.react.widgetprocessor.ValueAttributeProcessor()
             ],
-            layout: new reactmw.react.layout.ReactRenderDecorator(
+            layout: new metawidget.react.layout.ReactRenderDecorator(
                 new metawidget.layout.HeadingTagLayoutDecorator(
                     new metawidget.layout.TableLayout({numberOfColumns: 2})
                 )
@@ -768,7 +726,7 @@ var a = React.createClass({
     },
 
     componentDidMount: function () {
-        this.mw = new reactmw.react.ReactMetawidget(
+        this.mw = new metawidget.react.ReactMetawidget(
             this.refs.metawidget, {
                 inspector: this.props.inspector,
                 widgetBuilder: this.props.widgetBuilder,
@@ -786,4 +744,4 @@ var a = React.createClass({
     }
 });
     
-    export {a, reactmw};
+    export {metawidget, MetaWidget}

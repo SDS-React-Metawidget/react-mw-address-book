@@ -8,8 +8,7 @@ import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/image/edit'
-import {a as MetaWidget, reactmw}  from '../js/react-metawidget.js'
-import metawidget from 'metawidget';
+import {MetaWidget, metawidget}  from '../js/react-metawidget.js'
 export default class EditAddress extends Component {
     constructor(props) {
         super(props)
@@ -114,35 +113,19 @@ export default class EditAddress extends Component {
                                 textareaStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
                             />
                         </div>
-*/}
-                        
     <MetaWidget
 		toInspect={this.props.address}
         //inspector={new metawidget.inspector.JsonSchemaInspector(}
         widgetProcessors={[
-            new reactmw.react.widgetprocessor.IdProcessor(),
-            new reactmw.react.widgetprocessor.RequiredAttributeProcessor(),
-            new reactmw.react.widgetprocessor.PlaceholderAttributeProcessor(),
-            new reactmw.react.widgetprocessor.DisabledAttributeProcessor(),
-            new reactmw.react.widgetprocessor.MaxLengthAttributeProcessor(),
-            new reactmw.react.widgetprocessor.MaxAttributeProcessor(),
-            new reactmw.react.widgetprocessor.MinAttributeProcessor(),
-            new reactmw.react.widgetprocessor.ValueAttributeProcessor(),
-            new reactmw.react.widgetprocessor.ReactBindingProcessor(), 
-                                function(widget)
-                                 {return React.cloneElement(widget, {style: 
-                                                              {WebkitTapHighlightColor: 'rgba(0,0,0,0)', // Remove mobile color flashing (deprecated style)
-      padding: 0,
-      position: 'relative',
-      width: '100%',
-      border: 'none',
-      outline: 'none',
-      backgroundColor: 'rgba(0,0,0,0)',
-      font: 'inherit'}
-                                                             }
-                                                    )
-                                 }
-                                
+            new metawidget.react.widgetprocessor.IdProcessor(),
+            new metawidget.react.widgetprocessor.RequiredAttributeProcessor(),
+            new metawidget.react.widgetprocessor.PlaceholderAttributeProcessor(),
+            new metawidget.react.widgetprocessor.DisabledAttributeProcessor(),
+            new metawidget.react.widgetprocessor.MaxLengthAttributeProcessor(),
+            new metawidget.react.widgetprocessor.MaxAttributeProcessor(),
+            new metawidget.react.widgetprocessor.MinAttributeProcessor(),
+            new metawidget.react.widgetprocessor.ValueAttributeProcessor(),
+            new metawidget.react.widgetprocessor.ReactBindingProcessor()
         ]}
     />
                     </CardText>
