@@ -113,10 +113,6 @@ export default class EditAddress extends Component {
                                 textareaStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
                             />
                         </div>
-<<<<<<< HEAD
-=======
-                        
->>>>>>> 5dd7eba71fa62605156fbe8e9a41c080068004db
     <MetaWidget
 		toInspect={this.props.address}
         //inspector={new metawidget.inspector.JsonSchemaInspector(}
