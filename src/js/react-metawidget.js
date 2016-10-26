@@ -2,6 +2,9 @@ metawidget = require('metawidget');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import TextField from 'material-ui/TextField';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+'use strict'
 
 'use strict'
 
@@ -43,7 +46,7 @@ var InputField = React.createClass({
 			state.checked = this.props.checked || false;
 		else
 			state.value = this.props.value || "";
-		
+
         return state;
     },
 
@@ -54,7 +57,7 @@ var InputField = React.createClass({
 			updateState.checked = event.target.checked;
 		else
 			updateState.value = event.target.value;
-		
+
         this.setState(updateState);
 
         if (this.props.onChange)
@@ -150,12 +153,12 @@ var Select = React.createClass({
 		if(this.props.onChange)
 			this.props.onChange(e.target.value);
 	},
-	
+
     render: function () {
         var options = this.props.options.map(function (option, i) {
             return <option key={i}>{option}</option>;
         });
-		
+
         return (
             <select onChange={this.onChange}>
                 {options}
@@ -168,16 +171,16 @@ var Radio = React.createClass({
 	getInitialState: function() {
 		return {selectedOption: "1"};
 	},
-	
+
 	onChange: function(e) {
 		this.setState({
 			selectedOption: e.target.value,
 		});
-		
+
 		if(this.props.onChange)
 			this.props.onChange(this.props.options[e.target.value]);
 	},
-	
+
     render: function () {
         var options = this.props.options.map(function (option, i) {
             return (
@@ -295,6 +298,13 @@ metawidget.react.ReactMetawidget = function (element, config) {
         nestedMetawidget.path = metawidget.util.appendPath(attributes, this);
         nestedMetawidget.readOnly = this.readOnly || metawidget.util.isTrueOrTrueString(attributes.readOnly);
         nestedMetawidget.buildWidgets();
+		
+		// var nestedMetawidget = <MetaWidget
+			// toInspect={this.toInspect}
+			// config={[_pipeline,config]}
+			// element={nestedWidget}
+			// readOnly={this.readOnly || metawidget.util.isTrueOrTrueString(attributes.readOnly)}
+		// />
 
         return nestedWidget;
     };
@@ -306,14 +316,6 @@ metawidget.react.ReactMetawidget = function (element, config) {
             return widgetProcessor instanceof metawidget.react.widgetprocessor.ReactBindingProcessor;
         }).save(t);
     };
-
-
-    if (_pipeline.maximumInspectionDepth === 10) {
-        var b = document.createElement("button");
-        b.innerHTML = "Save changes into toInspect";
-        b.onclick = this.save;
-        document.body.appendChild(b);
-    }
 }
 
 metawidget.react.widgetbuilder = metawidget.react.widgetbuilder || {}
@@ -330,20 +332,14 @@ metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
             return metawidget.util.createElement(mw, 'stub');
         }
 
-        if (attributes.type) {
+        if (attributes.type)
+		{
             var properties = {
                 name: attributes.name,
                 metawidgetAttributes: attributes,
             };
 
             let elements = {
-                textArea: {
-                    parameters: {
-                        type: (e) => e === 'string',
-                        maxLength: (e) => e > 32
-                    },
-                    result: [TextAreaInput, {}]
-                },
                 textInput: {
                     parameters: {
                         type: (e) => e === 'string',
@@ -353,6 +349,24 @@ metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
                         InputField,
                         { type: 'text' }
                     ]
+                },
+				password: {
+                    parameters: {
+                        type: (e) => e === 'string',
+                        masked: (e) => e === true
+                    },
+                    result: [
+                        InputField,
+                        { type: 'password' }
+                    ]
+                },
+                textArea: {
+                    parameters: {
+                        type: (e) => e === 'string',
+                        //maxLength: (e) => e > 32,
+						large: (e) => e === true
+                    },
+                    result: [TextAreaInput, {}]
                 },
                 checkbox: {
                     parameters: {
@@ -399,6 +413,17 @@ metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
                         { type: 'number' }
                     ]
                 },
+                range: {
+                    parameters: {
+                        type: (e) => e === 'number' || e === 'integer' || e === 'float',
+						min: (e) => e !== undefined,
+						max: (e) => e !== undefined,
+                    },
+                    result: [
+                        InputField,
+                        { type: 'range' }
+                    ]
+                },
 				button: {
 					parameters: {
 						type: (e) => e === 'function'
@@ -406,8 +431,22 @@ metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
 					result: [
 						InputField,
 						{
-							type: attributes.submit ? "submit" : "button",
-							onClick: function() { return metawidget.util.traversePath(mw.toInspect, metawidget.util.splitPath(mw.path).names)[attributes.name]()},
+							type: "button",
+							onClick: metawidget.util.traversePath(mw.toInspect, metawidget.util.splitPath(mw.path).names)[attributes.name],
+							value: metawidget.util.getLabelString(attributes, mw),
+						}
+					]
+				},
+				submit: {
+					parameters: {
+						type: (e) => e === 'function',
+						submit: (e) => e === true,
+					},
+					result: [
+						InputField,
+						{
+							type: "submit",
+							onClick: metawidget.util.traversePath(mw.toInspect, metawidget.util.splitPath(mw.path).names)[attributes.name],
 							value: metawidget.util.getLabelString(attributes, mw),
 						}
 					]
@@ -424,8 +463,8 @@ metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
                 },
                 select: {
                     parameters: {
-                        type: (e) => e === 'select',
-                        enum: (e) => e !== undefined
+                        //type: (e) => e === 'select',
+                        enum: (e) => e !== undefined,
                     },
                     result: [
                         Select,
@@ -516,7 +555,6 @@ metawidget.react.layout.ReactRenderDecorator = function (config) {
 
 //Various processors for 'volatile' attributes
 //Could be combined into a single one?
-metawidget.widgetprocessor = metawidget.widgetprocessor || {};
 metawidget.react.widgetprocessor = metawidget.react.widgetprocessor || {};
 
 metawidget.react.widgetprocessor.ValueAttributeProcessor = function () {
@@ -694,28 +732,60 @@ metawidget.react.widgetprocessor.ReactBindingProcessor.prototype.processWidget =
     return widget;
 };
 
-function copyAcross(toThis, fromThis) 
+function copyAcross(toThis, fromThis)
 {
+	console.log("ft", fromThis);
     for(var bigKey in fromThis) 
 	{
         var splitKey = metawidget.util.splitPath(bigKey);
 		
-		//NEED TO DO NESTED LOGIC HERE
-		//IF NESTED OBJECT DOES NOT EXIST, THEN THIS PART FAILS
-        var toInspect = metawidget.util.traversePath(toThis, splitKey.names.slice(0, splitKey.names.length-1));
-		if(toInspect === undefined)
-			toInspect = {};
-		
-		var name = splitKey.names[splitKey.names.length-1];
-        //Have to use [], else it sets by value, not reference
-        toInspect[name] = fromThis[bigKey];
+		//Nested widgets will have more than one name
+		if(splitKey.names.length > 1)
+		{
+			//Check if nestedWidget object exists
+			//If not, create 'just in time'
+			if(toThis[splitKey.names.slice(0,1)] === undefined)
+				toThis[splitKey.names.slice(0,1)] = {};
+			
+			//Set toInspect to the nestedWidget object
+			var toInspect = toThis[splitKey.names.slice(0,1)];
+			
+			//Recreate path string, just one deeper
+			var string = splitKey.type + "";
+			splitKey.names.splice(0,1);
+			splitKey.names.forEach(function(val) {
+				string += "." + val;
+			});
+			
+			//Create object using path string and value
+			var obj = {};
+			obj[string] = fromThis[bigKey];
+			
+			//Recurse this function with nestedWidget object 
+			//and deeper path
+			copyAcross(toInspect, obj);
+		}
+		else
+		{
+			//Works when toInspect is already populated
+			//but not guaranteed, so have to use nested logic to manually
+			//set and check each level
+			//var toInspect = metawidget.util.traversePath(toThis, splitKey.names.slice(0, splitKey.names.length-1));
+			
+			var toInspect = toThis;
+			if(toInspect === undefined)
+				toInspect = {};
+			
+			var name = splitKey.names[splitKey.names.length-1];
+			//Have to use [], else it sets by value, not reference
+			toInspect[name] = fromThis[bigKey];
+		}
     }
 }
 metawidget.react.widgetprocessor.ReactBindingProcessor.prototype.save = function (mw) {
 
-	console.log(this.holder);
     copyAcross(mw.toInspect, this.holder);
-    console.log(mw.toInspect);
+    console.log("m", mw.toInspect);
     return true;
 };
 
@@ -723,21 +793,8 @@ var MetaWidget = React.createClass({
     propTypes: {
         toInspect: React.PropTypes.object,
         inspector: React.PropTypes.object,
-        addInspectors: React.PropTypes.oneOfType([
-            React.PropTypes.object,
-            React.PropTypes.arrayOf(React.PropTypes.object),
-        ]),
         widgetBuilder: React.PropTypes.object,
-        addWidgetBuilders: React.PropTypes.oneOfType([
-            React.PropTypes.object,
-            React.PropTypes.arrayOf(React.PropTypes.object),
-        ]),
         widgetProcessors: React.PropTypes.arrayOf(React.PropTypes.object),
-        addWidgetProcessors: React.PropTypes.oneOfType([
-            React.PropTypes.object,
-            React.PropTypes.func,
-            React.PropTypes.arrayOf(React.PropTypes.object),
-        ]),
         layout: React.PropTypes.object,
         readOnly: React.PropTypes.bool,
     },
@@ -753,66 +810,33 @@ var MetaWidget = React.createClass({
                 new metawidget.react.widgetprocessor.PlaceholderAttributeProcessor(),
                 new metawidget.react.widgetprocessor.DisabledAttributeProcessor(),
                 new metawidget.react.widgetprocessor.MaxLengthAttributeProcessor(),
-                new metawidget.react.widgetprocessor.MaxAttributeProcessor(),
                 new metawidget.react.widgetprocessor.MinAttributeProcessor(),
-                new metawidget.react.widgetprocessor.ValueAttributeProcessor()
+                new metawidget.react.widgetprocessor.MaxAttributeProcessor(),
+                new metawidget.react.widgetprocessor.ValueAttributeProcessor(),
             ],
             layout: new metawidget.react.layout.ReactRenderDecorator(
                 new metawidget.layout.HeadingTagLayoutDecorator(
                     new metawidget.layout.TableLayout({ numberOfColumns: 2 })
                 )
-            )
+            ),
+            readOnly: false
         }
-    },
-
-    buildInspector: function () {
-        var inspector, array = [];
-        if (this.props.addInspectors) {
-            array = array.concat(this.props.inspector, this.props.addInspectors);
-            inspector = new metawidget.inspector.CompositeInspector(array);
-        }
-        else {
-            inspector = this.props.inspector;
-        }
-        return inspector;
-    },
-
-    buildWidgetBuilder: function () {
-        var widgetBuilder, array = [];
-        if (this.props.addWidgetBuilders) {
-            array = array.concat(this.props.widgetBuilder, this.props.addWidgetBuilders);
-            widgetBuilder = new metawidget.widgetBuilder.CompositeWidgetBuilder(array);
-        }
-        else {
-            widgetBuilder = this.props.widgetBuilder;
-        }
-        return widgetBuilder;
-    },
-
-    buildWidgetProcessors: function () {
-        var widgetProcessors = this.props.widgetProcessors;
-        if (this.props.addWidgetProcessors) {
-            widgetProcessors = widgetProcessors.concat(this.props.addWidgetProcessors);
-        }
-        return widgetProcessors;
     },
 
     componentDidMount: function () {
         this.mw = new metawidget.react.ReactMetawidget(
-            this.refs.metawidget, {
-                inspector: this.buildInspector(),
-                widgetBuilder: this.buildWidgetBuilder(),
-                widgetProcessors: this.buildWidgetProcessors(),
-                layout: this.props.layout
-            }
+            this.refs.metawidget, {...this.props}
         );
+
         this.mw.toInspect = this.props.toInspect;
+        this.mw.readOnly = this.props.readOnly;
 
         this.mw.buildWidgets();
+		this.refs.metawidget.mw = this.mw;
     },
 
     render: function () {
-        return <div ref="metawidget"/>
+        return <div id="mwContainer" ref="metawidget"/>
     }
 });
 
