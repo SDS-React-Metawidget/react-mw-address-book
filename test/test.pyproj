@@ -32,6 +32,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Features\AddressBookMainPage.feature" />
+    <Content Include="Features\ItemManipulation.feature" />
+    <Content Include="Features\Search.feature" />
+    <Content Include="Features\UIFlow.feature" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features" />
