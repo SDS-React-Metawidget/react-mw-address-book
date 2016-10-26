@@ -6,30 +6,51 @@ import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/image/edit';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+metawidget = require('metawidget');
 
 'use strict'
 
 var metawidget = metawidget || {};
+
 metawidget.react = metawidget.react || {}
 
-metawidget.react.widgetbuilder_mat_ui = metawidget.react.widgetbuilder_mat_ui || {}
+metawidget.react.widgetbuilderMatUI = metawidget.react.widgetbuilderMatUI || {}
 
-metawidget.react.widgetbuilder_mat_ui.ReactWidgetBuilder = function (config) {
+const ReactWidgetBuilder = function (config) {
 
-    if (!( this instanceof metawidget.react.widgetbuilder.ReactWidgetBuilder )) {
+    if (!( this instanceof ReactWidgetBuilder )) {
         throw new Error('Constructor called as a function');
     }
 
+    this.config = config || {};
+    console.log(config);
     this.buildWidget = function (elementName, attributes, mw) {
 
         if (metawidget.util.isTrueOrTrueString(attributes.hidden)) {
             return metawidget.util.createElement(mw, 'stub');
         }
+        
+        var value;
+		var typeAndNames = metawidget.util.splitPath(mw.path);
+		var toInspect = metawidget.util.traversePath(mw.toInspect, typeAndNames.names);
 
+		if (typeAndNames.names === undefined) {
+			typeAndNames.names = [];
+		}
+		if (elementName !== 'entity' && toInspect !== undefined) {
+			value = toInspect[attributes.name];
+			typeAndNames.names.push(attributes.name);
+		}
+		else {
+			value = toInspect;
+		}
         if (attributes.type) {
             var properties = {
-                name: attributes.name,
-                metawidgetAttributes: attributes,
+                //disabled:!this.config.state.edit,
+                //underlineShow:this.config.state.edit,
+                inputStyle:!this.config.state.edit ? {color: '#000', cursor: 'initial'} : {}
             };
 
             let elements = {
@@ -38,11 +59,10 @@ metawidget.react.widgetbuilder_mat_ui.ReactWidgetBuilder = function (config) {
                     parameters: {
                         type: (e) => e === 'string',
                         
-                        readOnly: (e) => e === true
                     },
                     result: [TextField, {
                         floatingLabelText:attributes.name,
-                        defaultValue:attributes.name,
+                        defaultValue:value,
                         name:attributes.name,
                         
                     }]
@@ -55,19 +75,25 @@ metawidget.react.widgetbuilder_mat_ui.ReactWidgetBuilder = function (config) {
                         return prev
                 }
                 return elements[element].result
-            }, elements.textInput.result)
+            }, elements.output.result)
 
             // var fromArr = arr[attributes.type];
             if (Element) {
                 var ElementType = Element[0];
                 var uniqueElementProps = Element[1];
                 return (
+                    <MuiThemeProvider>
+                    <div>
                     <ElementType
                         {...properties}
                         {...uniqueElementProps}
                     />
+                    </div>
+                    </MuiThemeProvider>
                 )
             }
         }
     };
 };
+
+export default ReactWidgetBuilder
