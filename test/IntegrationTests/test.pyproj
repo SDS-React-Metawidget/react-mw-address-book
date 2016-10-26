@@ -22,6 +22,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Features\environment.py" />
+    <Compile Include="Features\Steps\AssertionMethods.py" />
+    <Compile Include="Features\Steps\ControlElementsSteps.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Features\Steps\InspectElementSteps.py" />
     <Compile Include="Features\Steps\ServerControl.py" />
     <Compile Include="Features\Steps\__init__.py" />
@@ -31,6 +35,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Features\AddressBookMainPage.feature" />
+    <Content Include="Features\ItemManipulation.feature" />
+    <Content Include="Features\Search.feature" />
+    <Content Include="Features\UIFlow.feature" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features" />

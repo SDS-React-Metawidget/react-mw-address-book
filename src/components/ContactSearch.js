@@ -2,7 +2,7 @@
  * Created by alex on 6/10/2016.
  */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import Search from 'material-ui/svg-icons/action/search';
@@ -12,7 +12,7 @@ import Close from 'material-ui/svg-icons/navigation/close'
 export default class ContactSearch extends Component {
     constructor(props) {
         super(props)
-        
+
         this.handleChange = this.handleChange.bind(this)
         this.handleClear = this.handleClear.bind(this)
 
@@ -49,6 +49,7 @@ export default class ContactSearch extends Component {
                 }}
             >
                 <Search
+                    id="contactSearch"
                     style={{
                         width: 30,
                         height: 30,
