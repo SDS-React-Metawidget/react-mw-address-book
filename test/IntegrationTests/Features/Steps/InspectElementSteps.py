@@ -23,3 +23,11 @@ def details_page_is_focus(context):
     element = context.server.find_element_by_xpath("//span[text()='Contact details']")
     assertExists(name)
     assertExists(element)
+
+@then('the address list yields {num} item/s')
+def check_visibile_contacts(context, num):
+    pass
+
+@then('the address list contact {item} shall be "{name}"')
+def check_contact_item(context, item, name):
+    pass

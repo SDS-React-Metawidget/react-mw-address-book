@@ -17,6 +17,9 @@ def click_back_button(context):
     back_button.click()
     time.sleep(1)
 
-@when('we enter "{search_text}" into the search field')
-def search_with_text(context, search_text):
-    pass
+@when('we enter "{search_text}" into the search bar')
+def search_using_text(context, search_text):
+    search_input_field = context.server.find_element_by_xpath("//input[@id='contactSearch']")
+    assertExists(search_input_field)
+    search_input_field.send_keys(str(search_text))
+    time.sleep(1)
