@@ -113,21 +113,12 @@ export default class EditAddress extends Component {
                                 textareaStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
                             />
                         </div>
-    <MetaWidget
-		toInspect={this.props.address}
-        //inspector={new metawidget.inspector.JsonSchemaInspector(}
-        widgetProcessors={[
-            new metawidget.react.widgetprocessor.IdProcessor(),
-            new metawidget.react.widgetprocessor.RequiredAttributeProcessor(),
-            new metawidget.react.widgetprocessor.PlaceholderAttributeProcessor(),
-            new metawidget.react.widgetprocessor.DisabledAttributeProcessor(),
-            new metawidget.react.widgetprocessor.MaxLengthAttributeProcessor(),
-            new metawidget.react.widgetprocessor.MaxAttributeProcessor(),
-            new metawidget.react.widgetprocessor.MinAttributeProcessor(),
-            new metawidget.react.widgetprocessor.ValueAttributeProcessor(),
-            new metawidget.react.widgetprocessor.ReactBindingProcessor()
-        ]}
-    />
+                        <div>
+                            <MetaWidget
+                                toInspect={this.props.address}
+                                appendWidgetProcessors={new metawidget.react.widgetprocessor.ReactBindingProcessor()}
+                                />
+                            </div>
                     </CardText>
                 </Card>
             </div>
