@@ -16,3 +16,10 @@ def check_title(context, Title):
 @then('the heading shall be "{Heading}"')
 def check_heading(context, Heading):
     assertEquals(context.heading.text, Heading)
+
+@then('the details page will be displayed')
+def details_page_is_focus(context):
+    name = context.server.find_element_by_xpath("//span[text()='" + context.contact_name + "']")
+    element = context.server.find_element_by_xpath("//span[text()='Contact details']")
+    assertExists(name)
+    assertExists(element)

@@ -23,6 +23,9 @@
   <ItemGroup>
     <Compile Include="Features\environment.py" />
     <Compile Include="Features\Steps\AssertionMethods.py" />
+    <Compile Include="Features\Steps\ControlElementsSteps.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Features\Steps\InspectElementSteps.py" />
     <Compile Include="Features\Steps\ServerControl.py" />
     <Compile Include="Features\Steps\__init__.py" />
