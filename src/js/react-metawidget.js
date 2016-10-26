@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-'use strict'
 
 'use strict'
 
@@ -209,8 +208,6 @@ var Output = React.createClass({
 });
 
 var metawidget = metawidget || {};
-
-'use strict';
 
 metawidget.react = metawidget.react || {}
 

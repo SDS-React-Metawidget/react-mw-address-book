@@ -9,10 +9,10 @@ import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/image/edit'
 import {MetaWidget, metawidget}  from '../js/react-metawidget.js'
+import ReactWidgetBuilder from '../js/react-metawidget-material-ui.js';
 export default class EditAddress extends Component {
     constructor(props) {
         super(props)
-
         this.handleClick = this.handleClick.bind(this)
 
         this.state = {
@@ -116,6 +116,8 @@ export default class EditAddress extends Component {
                         <div>
                             <MetaWidget
                                 toInspect={this.props.address}
+                                widgetBuilder={new ReactWidgetBuilder({a:console.log(this.state),props:this.props, state:this.state})}
+                                layout={new metawidget.react.layout.ReactRenderDecorator (new metawidget.layout.SimpleLayout()) }
                                 appendWidgetProcessors={new metawidget.react.widgetprocessor.ReactBindingProcessor()}
                                 />
                             </div>
