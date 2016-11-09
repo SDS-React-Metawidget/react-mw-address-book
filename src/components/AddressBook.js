@@ -154,12 +154,12 @@ export default class AddressBook extends Component {
     }
 
     compareAddresses(a, b) {
-        let aName = a.name.toLowerCase()
-        let bName = b.name.toLowerCase()
+        let aName = a.name.toLowerCase();
+        let bName = b.name.toLowerCase();
         if (aName < bName)
-            return -1
+            return -1;
         if (aName > bName)
-            return 1
+            return 1;
         return 0
     }
 
