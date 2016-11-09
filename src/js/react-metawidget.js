@@ -25,7 +25,7 @@ var dontCheckProperties = ["checked", "value", "metawidgetAttributes"];
 
 var DOMEvents = ["onCopy", "onCut", "onPaste", "onCompositionEnd", "onCompositionStart", "onCompositionUpdate", "onKeyDown", "onKeyPress", "onKeyUp",
     "onFocus", "onBlur", /*"onChange"*/, "onInput", "onSubmit", "onClick", "onContextMenu", "onDoubleClick", "onDrag", "onDragEnd", "onDragEnter", "onDragExit",
-    "onDragLeave", "onDragOver", "onDragStart", "onDrop", "onMouseDown", "onMouseEnter", "onMouseLeave	onMouseMove", "onMouseOut", "onMouseOver", "onMouseUp",
+    "onDragLeave", "onDragOver", "onDragStart", "onDrop", "onMouseDown", "onMouseEnter", "onMouseLeave    onMouseMove", "onMouseOut", "onMouseOver", "onMouseUp",
     "onSelect", "onTouchCancel", "onTouchEnd", "onTouchMove", "onTouchStart", "onScroll", "onWheel", "onAbort", "onCanPlay", "onCanPlayThrough", "onDurationChange",
     "onEmptied", "onEncrypted", "onEnded", "onError", "onLoadedData", "onLoadedMetadata", "onLoadStart", "onPause", "onPlay", "onPlaying", "onProgress",
     "onRateChange", "onSeeked", "onSeeking", "onStalled", "onSuspend", "onTimeUpdate", "onVolumeChange", "onWaiting", "onLoad", "onError", "onAnimationStart",
@@ -40,32 +40,31 @@ var InputField = React.createClass({
     },
 
     getInitialState: function () {
-		var state = {};
-		if(this.props.type === "checkbox")
-			state.checked = this.props.checked || false;
-		else
-			state.value = this.props.value || "";
+        var state = {};
+        if (this.props.type === "checkbox")
+            state.checked = this.props.checked || false;
+        else
+            state.value = this.props.value || "";
 
         return state;
     },
 
     //Handle change of value
     onChange: function (event) {
-		var updateState = {};
-		if(this.props.type === "checkbox")
-			updateState.checked = event.target.checked;
-		else
-			updateState.value = event.target.value;
+        var updateState = {};
+        if (this.props.type === "checkbox")
+            updateState.checked = event.target.checked;
+        else
+            updateState.value = event.target.value;
 
         this.setState(updateState);
 
-        if (this.props.onChange)
-		{
-			if(this.props.type === "checkbox")
-				this.props.onChange(event.target.checked);
-			else
-				this.props.onChange(event.target.value);
-		}
+        if (this.props.onChange) {
+            if (this.props.type === "checkbox")
+                this.props.onChange(event.target.checked);
+            else
+                this.props.onChange(event.target.value);
+        }
     },
 
     checkValidProps: function (props) {
@@ -148,10 +147,10 @@ var TextAreaInput = React.createClass({
 });
 
 var Select = React.createClass({
-	onChange: function(e) {
-		if(this.props.onChange)
-			this.props.onChange(e.target.value);
-	},
+    onChange: function (e) {
+        if (this.props.onChange)
+            this.props.onChange(e.target.value);
+    },
 
     render: function () {
         var options = this.props.options.map(function (option, i) {
@@ -167,24 +166,26 @@ var Select = React.createClass({
 });
 
 var Radio = React.createClass({
-	getInitialState: function() {
-		return {selectedOption: "1"};
-	},
+    getInitialState: function () {
+        return { selectedOption: "1" };
+    },
 
-	onChange: function(e) {
-		this.setState({
-			selectedOption: e.target.value,
-		});
+    onChange: function (e) {
+        this.setState({
+            selectedOption: e.target.value,
+        });
 
-		if(this.props.onChange)
-			this.props.onChange(this.props.options[e.target.value]);
-	},
+        if (this.props.onChange)
+            this.props.onChange(this.props.options[e.target.value]);
+    },
 
     render: function () {
         var options = this.props.options.map(function (option, i) {
             return (
                 <label key={i}>
-                    <input type="radio" value={i+""} name={this.props.label} checked={this.state.selectedOption === (i+"")} onChange={this.onChange}/> {option}
+                    <input type="radio" value={i + ""} name={this.props.label}
+                           checked={this.state.selectedOption === (i + "")}
+                           onChange={this.onChange}/> {option}
                 </label>
             )
         }, this);
@@ -201,13 +202,23 @@ var Output = React.createClass({
     render: function () {
         return (
             <output>
-                {this.props.value}
+                {this.props.value + ""}
             </output>
         );
     }
 });
 
+var Stub = React.createClass({
+    render: function () {
+        return (
+            <stub/>
+        );
+    }
+});
+
 var metawidget = metawidget || {};
+
+'use strict';
 
 metawidget.react = metawidget.react || {}
 
@@ -295,13 +306,13 @@ metawidget.react.ReactMetawidget = function (element, config) {
         nestedMetawidget.path = metawidget.util.appendPath(attributes, this);
         nestedMetawidget.readOnly = this.readOnly || metawidget.util.isTrueOrTrueString(attributes.readOnly);
         nestedMetawidget.buildWidgets();
-		
-		// var nestedMetawidget = <MetaWidget
-			// toInspect={this.toInspect}
-			// config={[_pipeline,config]}
-			// element={nestedWidget}
-			// readOnly={this.readOnly || metawidget.util.isTrueOrTrueString(attributes.readOnly)}
-		// />
+
+        // var nestedMetawidget = <MetaWidget
+        // toInspect={this.toInspect}
+        // config={[_pipeline,config]}
+        // element={nestedWidget}
+        // readOnly={this.readOnly || metawidget.util.isTrueOrTrueString(attributes.readOnly)}
+        // />
 
         return nestedWidget;
     };
@@ -325,12 +336,7 @@ metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
 
     this.buildWidget = function (elementName, attributes, mw) {
 
-        if (metawidget.util.isTrueOrTrueString(attributes.hidden)) {
-            return metawidget.util.createElement(mw, 'stub');
-        }
-
-        if (attributes.type)
-		{
+        if (attributes.type) {
             var properties = {
                 name: attributes.name,
                 metawidgetAttributes: attributes,
@@ -347,7 +353,7 @@ metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
                         { type: 'text' }
                     ]
                 },
-				password: {
+                password: {
                     parameters: {
                         type: (e) => e === 'string',
                         masked: (e) => e === true
@@ -361,7 +367,7 @@ metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
                     parameters: {
                         type: (e) => e === 'string',
                         //maxLength: (e) => e > 32,
-						large: (e) => e === true
+                        large: (e) => e === true
                     },
                     result: [TextAreaInput, {}]
                 },
@@ -413,41 +419,41 @@ metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
                 range: {
                     parameters: {
                         type: (e) => e === 'number' || e === 'integer' || e === 'float',
-						min: (e) => e !== undefined,
-						max: (e) => e !== undefined,
+                        min: (e) => e !== undefined,
+                        max: (e) => e !== undefined,
                     },
                     result: [
                         InputField,
                         { type: 'range' }
                     ]
                 },
-				button: {
-					parameters: {
-						type: (e) => e === 'function'
-					},
-					result: [
-						InputField,
-						{
-							type: "button",
-							onClick: metawidget.util.traversePath(mw.toInspect, metawidget.util.splitPath(mw.path).names)[attributes.name],
-							value: metawidget.util.getLabelString(attributes, mw),
-						}
-					]
-				},
-				submit: {
-					parameters: {
-						type: (e) => e === 'function',
-						submit: (e) => e === true,
-					},
-					result: [
-						InputField,
-						{
-							type: "submit",
-							onClick: metawidget.util.traversePath(mw.toInspect, metawidget.util.splitPath(mw.path).names)[attributes.name],
-							value: metawidget.util.getLabelString(attributes, mw),
-						}
-					]
-				},
+                button: {
+                    parameters: {
+                        type: (e) => e === 'function'
+                    },
+                    result: [
+                        InputField,
+                        {
+                            type: "button",
+                            onClick: metawidget.util.traversePath(mw.toInspect, metawidget.util.splitPath(mw.path).names)[attributes.name],
+                            value: metawidget.util.getLabelString(attributes, mw),
+                        }
+                    ]
+                },
+                submit: {
+                    parameters: {
+                        type: (e) => e === 'function',
+                        submit: (e) => e === true,
+                    },
+                    result: [
+                        InputField,
+                        {
+                            type: "submit",
+                            onClick: metawidget.util.traversePath(mw.toInspect, metawidget.util.splitPath(mw.path).names)[attributes.name],
+                            value: metawidget.util.getLabelString(attributes, mw),
+                        }
+                    ]
+                },
                 booleanRadio: {
                     parameters: {
                         type: (e) => e === 'boolean',
@@ -470,7 +476,8 @@ metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
                 },
                 radio: {
                     parameters: {
-                        componentType: (e) => e === 'radio'
+                        componentType: (e) => e === 'radio',
+                        enum: (e) => e !== undefined,
                     },
                     result: [
                         Radio,
@@ -479,9 +486,22 @@ metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
                 },
                 output: {
                     parameters: {
-                        readOnly: (e) => e === true
+                        readOnly: (e) => metawidget.util.isTrueOrTrueString(e)
                     },
                     result: [Output, {}]
+                },
+                stubReadOnlyButton: {
+                    parameters: {
+                        type: (e) => e === "function",
+                        readOnly: (e) => metawidget.util.isTrueOrTrueString(e)
+                    },
+                    result: [Stub, {}]
+                },
+                hidden: {
+                    parameters: {
+                        hidden: (e) => metawidget.util.isTrueOrTrueString(e),
+                    },
+                    result: [Stub, {}]
                 }
             }
 
@@ -491,9 +511,10 @@ metawidget.react.widgetbuilder.ReactWidgetBuilder = function (config) {
                         return prev
                 }
                 return elements[element].result
-            }, elements.textInput.result)
+            }, null)
 
-            // var fromArr = arr[attributes.type];
+            if(Element == null)
+                return undefined;
             if (Element) {
                 var ElementType = Element[0];
                 var uniqueElementProps = Element[1];
@@ -562,36 +583,35 @@ metawidget.react.widgetprocessor.ValueAttributeProcessor = function () {
 };
 metawidget.react.widgetprocessor.ValueAttributeProcessor.prototype.processWidget = function (widget, elementName, attributes, mw) {
 
-	if(attributes.type !== "function")
-	{
-		//Get value from toInspect object
-		var value;
-		var typeAndNames = metawidget.util.splitPath(mw.path);
-		var toInspect = metawidget.util.traversePath(mw.toInspect, typeAndNames.names);
+    if (attributes.type !== "function") {
+        //Get value from toInspect object
+        var value;
+        var typeAndNames = metawidget.util.splitPath(mw.path);
+        var toInspect = metawidget.util.traversePath(mw.toInspect, typeAndNames.names);
 
-		if (typeAndNames.names === undefined) {
-			typeAndNames.names = [];
-		}
-		if (elementName !== 'entity' && toInspect !== undefined) {
-			value = toInspect[attributes.name];
-			typeAndNames.names.push(attributes.name);
-		}
-		else {
-			value = toInspect;
-		}
+        if (typeAndNames.names === undefined) {
+            typeAndNames.names = [];
+        }
+        if (elementName !== 'entity' && toInspect !== undefined) {
+            value = toInspect[attributes.name];
+            typeAndNames.names.push(attributes.name);
+        }
+        else {
+            value = toInspect;
+        }
 
-		if (value !== undefined) {
-			if (React.isValidElement(widget))
-				widget = React.cloneElement(widget, { value: value, checked: value });
-		}
+        if (value !== undefined) {
+            if (React.isValidElement(widget))
+                widget = React.cloneElement(widget, { value: value, checked: value });
+        }
 
-		//Get value from attributes
-		//Currently overwrites that from toInspect
-		if (attributes.value !== undefined) {
-			if (React.isValidElement(widget))
-				widget = React.cloneElement(widget, { value: attributes.value, checked: attributes.value });
-		}
-	}
+        //Get value from attributes
+        //Currently overwrites that from toInspect
+        if (attributes.value !== undefined) {
+            if (React.isValidElement(widget))
+                widget = React.cloneElement(widget, { value: attributes.value, checked: attributes.value });
+        }
+    }
 
     return widget;
 };
@@ -729,54 +749,50 @@ metawidget.react.widgetprocessor.ReactBindingProcessor.prototype.processWidget =
     return widget;
 };
 
-function copyAcross(toThis, fromThis)
-{
-	console.log("ft", fromThis);
-    for(var bigKey in fromThis) 
-	{
+function copyAcross(toThis, fromThis) {
+    console.log("ft", fromThis);
+    for ( var bigKey in fromThis ) {
         var splitKey = metawidget.util.splitPath(bigKey);
-		
-		//Nested widgets will have more than one name
-		if(splitKey.names.length > 1)
-		{
-			//Check if nestedWidget object exists
-			//If not, create 'just in time'
-			if(toThis[splitKey.names.slice(0,1)] === undefined)
-				toThis[splitKey.names.slice(0,1)] = {};
-			
-			//Set toInspect to the nestedWidget object
-			var toInspect = toThis[splitKey.names.slice(0,1)];
-			
-			//Recreate path string, just one deeper
-			var string = splitKey.type + "";
-			splitKey.names.splice(0,1);
-			splitKey.names.forEach(function(val) {
-				string += "." + val;
-			});
-			
-			//Create object using path string and value
-			var obj = {};
-			obj[string] = fromThis[bigKey];
-			
-			//Recurse this function with nestedWidget object 
-			//and deeper path
-			copyAcross(toInspect, obj);
-		}
-		else
-		{
-			//Works when toInspect is already populated
-			//but not guaranteed, so have to use nested logic to manually
-			//set and check each level
-			//var toInspect = metawidget.util.traversePath(toThis, splitKey.names.slice(0, splitKey.names.length-1));
-			
-			var toInspect = toThis;
-			if(toInspect === undefined)
-				toInspect = {};
-			
-			var name = splitKey.names[splitKey.names.length-1];
-			//Have to use [], else it sets by value, not reference
-			toInspect[name] = fromThis[bigKey];
-		}
+
+        //Nested widgets will have more than one name
+        if (splitKey.names.length > 1) {
+            //Check if nestedWidget object exists
+            //If not, create 'just in time'
+            if (toThis[splitKey.names.slice(0, 1)] === undefined)
+                toThis[splitKey.names.slice(0, 1)] = {};
+
+            //Set toInspect to the nestedWidget object
+            var toInspect = toThis[splitKey.names.slice(0, 1)];
+
+            //Recreate path string, just one deeper
+            var string = splitKey.type + "";
+            splitKey.names.splice(0, 1);
+            splitKey.names.forEach(function (val) {
+                string += "." + val;
+            });
+
+            //Create object using path string and value
+            var obj = {};
+            obj[string] = fromThis[bigKey];
+
+            //Recurse this function with nestedWidget object
+            //and deeper path
+            copyAcross(toInspect, obj);
+        }
+        else {
+            //Works when toInspect is already populated
+            //but not guaranteed, so have to use nested logic to manually
+            //set and check each level
+            //var toInspect = metawidget.util.traversePath(toThis, splitKey.names.slice(0, splitKey.names.length-1));
+
+            var toInspect = toThis;
+            if (toInspect === undefined)
+                toInspect = {};
+
+            var name = splitKey.names[splitKey.names.length - 1];
+            //Have to use [], else it sets by value, not reference
+            toInspect[name] = fromThis[bigKey];
+        }
     }
 }
 metawidget.react.widgetprocessor.ReactBindingProcessor.prototype.save = function (mw) {
@@ -822,18 +838,25 @@ var MetaWidget = React.createClass({
 
     componentDidMount: function () {
         this.mw = new metawidget.react.ReactMetawidget(
-            this.refs.metawidget, {...this.props}
+            this.metawidget, { ...this.props }
         );
 
         this.mw.toInspect = this.props.toInspect;
         this.mw.readOnly = this.props.readOnly;
 
         this.mw.buildWidgets();
-		this.refs.metawidget.mw = this.mw;
+        this.metawidget.mw = this.mw;
     },
-
+    componentWillUpdate: function(nextProps) {
+        console.log(nextProps)
+        if (nextProps.readOnly !== this.props.readOnly) {
+            this.mw.readOnly = nextProps.readOnly;
+            this.mw.buildWidgets();
+            console.log(this.mw);
+        }
+    },
     render: function () {
-        return <div id="mwContainer" ref="metawidget"/>
+        return <div id="mwContainer" ref={div => this.metawidget = div}/>
     }
 });
 

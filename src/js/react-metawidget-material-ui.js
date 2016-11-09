@@ -25,9 +25,8 @@ const ReactWidgetBuilder = function (config) {
     }
 
     this.config = config || {};
-    console.log(config);
     this.buildWidget = function (elementName, attributes, mw) {
-
+        console.log(attributes);
         if (metawidget.util.isTrueOrTrueString(attributes.hidden)) {
             return metawidget.util.createElement(mw, 'stub');
         }
@@ -50,21 +49,21 @@ const ReactWidgetBuilder = function (config) {
             var properties = {
                 //disabled:!this.config.state.edit,
                 //underlineShow:this.config.state.edit,
-                inputStyle:!this.config.state.edit ? {color: '#000', cursor: 'initial'} : {}
+                //inputStyle:!this.config.state.edit ? {color: '#000', cursor: 'initial'} : {}
             };
 
             let elements = {
                 
                 output: {
                     parameters: {
-                        type: (e) => e === 'string',
+                        readOnly: (e) => metawidget.util.isTrueOrTrueString(e)
                         
                     },
                     result: [TextField, {
                         floatingLabelText:attributes.name,
                         defaultValue:value,
                         name:attributes.name,
-                        
+                        disabled:metawidget.util.isTrueOrTrueString(attributes.readOnly)
                     }]
                 }
             }

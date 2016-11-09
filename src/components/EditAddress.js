@@ -62,63 +62,13 @@ export default class EditAddress extends Component {
                     />
 
                     <CardText>
-                        
-                        <div>
-                            <TextField
-                                floatingLabelText="Name"
-                                defaultValue={this.props.address.name}
-                                name="name"
-                                ref="firstField"
-                                onChange={this.props.handleEditAddress}
-                                disabled={!this.state.edit}
-                                underlineShow={this.state.edit}
-                                inputStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
-                            />
-                        </div>
-
-                        <div>
-                            <TextField
-                                floatingLabelText="Email address"
-                                defaultValue={this.props.address.email}
-                                name="email"
-                                onChange={this.props.handleEditAddress}
-                                disabled={!this.state.edit}
-                                underlineShow={this.state.edit}
-                                inputStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
-                            />
-                        </div>
-
-                        <div>
-                            <TextField
-                                floatingLabelText="Phone number"
-                                defaultValue={this.props.address.phone}
-                                name="phone"
-                                onChange={this.props.handleEditAddress}
-                                disabled={!this.state.edit}
-                                underlineShow={this.state.edit}
-                                inputStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
-                            />
-                        </div>
-
-                        <div>
-                            <TextField
-                                floatingLabelStyle={{left: 0}}
-                                floatingLabelText="Notes"
-                                defaultValue={this.props.address.notes}
-                                name="notes"
-                                onChange={this.props.handleEditAddress}
-                                multiLine={true} disabled={!this.state.edit}
-                                underlineShow={this.state.edit}
-                                inputStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
-                                textareaStyle={!this.state.edit ? {color: '#000', cursor: 'initial'} : {}}
-                            />
-                        </div>
                         <div>
                             <MetaWidget
                                 toInspect={this.props.address}
-                                widgetBuilder={new ReactWidgetBuilder({a:console.log(this.state),props:this.props, state:this.state})}
+                                widgetBuilder={new ReactWidgetBuilder()}
                                 layout={new metawidget.react.layout.ReactRenderDecorator (new metawidget.layout.SimpleLayout()) }
                                 appendWidgetProcessors={new metawidget.react.widgetprocessor.ReactBindingProcessor()}
+                                readOnly={!this.state.edit}
                                 />
                             </div>
                     </CardText>
