@@ -40,6 +40,7 @@ export default class AddressBook extends Component {
             <EditAddress
               address={this.state.activeContact}
               handleEditAddress={this.handleEditAddress}
+              schema={this.props.schema}
             />
           ),
           title: () => `${this.state.activeContact.name}`,
@@ -55,8 +56,9 @@ export default class AddressBook extends Component {
         addAddress: {
           route: () => (
             <AddAddress
-              address={{}}
-              handleAddAddress={this.handleAddAddress}
+                address={{}}
+                handleAddAddress={this.handleAddAddress}
+                schema={this.props.schema}
             />
           ),
           title: () => 'New Contact',
@@ -103,14 +105,14 @@ export default class AddressBook extends Component {
   }
 
   handleEditAddress(e) {
-    e.preventDefault()
-
+    console.log(e);
+    
     let contactId = document.querySelector('#editContactContainer').dataset.contact
 
     this.setState({
       snackbarOpen: true,
       snackbarMessage: 'Saving contact',
-      contacts: this.editAddress(contactId, e.currentTarget.name, e.currentTarget.value)
+      contacts: this.editAddress(contactId, e.name, e.value)
     }, () => this.saveToFile())
   }
 

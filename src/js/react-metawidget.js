@@ -736,14 +736,16 @@ metawidget.react.widgetprocessor.ReactBindingProcessor = function () {
     this.holder = {};
 };
 metawidget.react.widgetprocessor.ReactBindingProcessor.prototype.processWidget = function (widget, elementName, attributes, mw) {
-
+    console.log(widget);
     var t = this;
     if (React.isValidElement(widget)) {
         widget = React.cloneElement(widget, {
             onChange: function (e) {
+                console.log(e);
                 t.holder[metawidget.util.appendPath(attributes, mw)] = e;
             }
         });
+        console.log(widget);
     }
 
     return widget;
@@ -796,9 +798,8 @@ function copyAcross(toThis, fromThis) {
     }
 }
 metawidget.react.widgetprocessor.ReactBindingProcessor.prototype.save = function (mw) {
-
+    console.log(mw.toInspect);
     copyAcross(mw.toInspect, this.holder);
-    console.log("m", mw.toInspect);
     return true;
 };
 
@@ -848,11 +849,9 @@ var MetaWidget = React.createClass({
         this.metawidget.mw = this.mw;
     },
     componentWillUpdate: function(nextProps) {
-        console.log(nextProps)
         if (nextProps.readOnly !== this.props.readOnly) {
             this.mw.readOnly = nextProps.readOnly;
             this.mw.buildWidgets();
-            console.log(this.mw);
         }
     },
     render: function () {

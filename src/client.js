@@ -41,10 +41,37 @@ const getInitialAddresses = () => {
     return JSON.parse(localStorage.getItem('addresses'))
 }
 
-
+var schema = {
+    properties: {
+    id: {
+        type:"string",
+        hidden:true
+    },
+    name: {
+        type:"string",
+        required:true
+    },
+    email: {
+        type:"string",
+        required:true
+    },
+    phoneNumber: {
+        type:"string"
+    },
+    notes: {
+        type:"string",
+        large:true
+    },
+    saveButton: {
+        type:"function"
+    }
+        
+    }
+}
 ReactDOM.render(
     <AddressBook
         addresses={getInitialAddresses()}
+        schema={schema}
     />,
     document.getElementById('root')
 );

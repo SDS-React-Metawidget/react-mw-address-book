@@ -8,6 +8,9 @@ import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import Subheader from 'material-ui/Subheader';
 
+import {MetaWidget, metawidget}  from '../js/react-metawidget.js';
+import ReactWidgetBuilder from '../js/react-metawidget-material-ui.js';
+
 export default class AddAddress extends Component {
   constructor(props) {
     super(props);
@@ -77,44 +80,18 @@ export default class AddAddress extends Component {
 
           <CardText>
             <div>
-              <TextField
-                floatingLabelText="Name"
-                defaultValue={this.state.contact.name}
-                name="name"
-                onChange={this.handleChange}
-              />
+              <MetaWidget
+                inspector={
+                    new metawidget.inspector.CompositeInspector([
+                        new metawidget.inspector.PropertyTypeInspector(),
+                        new metawidget.inspector.JsonSchemaInspector(this.props.schema)
+                    ])
+            }
+                widgetBuilder={new ReactWidgetBuilder({saveFunc:this.handleChange})}
+                layout={new metawidget.react.layout.ReactRenderDecorator (new metawidget.layout.SimpleLayout()) }
+                appendWidgetProcessors={new metawidget.react.widgetprocessor.ReactBindingProcessor()}
+                />
             </div>
-
-            <div>
-              <TextField
-                floatingLabelText="Email address"
-                defaultValue={this.state.contact.email}
-                ref="email"
-                name="email"
-                onChange={this.handleChange}
-              />
-            </div>
-
-            <div>
-              <TextField
-                floatingLabelText="Phone number"
-                defaultValue={this.state.contact.phone}
-                name="phone"
-                onChange={this.handleChange}
-              />
-            </div>
-
-            <div>
-              <TextField
-                floatingLabelStyle={{ left: 0 }}
-                floatingLabelText="Notes"
-                defaultValue={this.state.contact.notes}
-                name="notes"
-                onChange={this.handleChange}
-                multiLine
-              />
-            </div>
-
             <Subheader
               style={{ color: '#00BCD4' }}
             >
