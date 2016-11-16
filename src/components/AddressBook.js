@@ -82,7 +82,6 @@ export default class AddressBook extends Component {
     let route = e.currentTarget.dataset.route
     let contact = e.currentTarget.dataset.contact
     this.setState({
-      snackbarOpen: false,
       activeRoute: this.state.routes[route],
       activeContact: this.state.contacts.filter((el) => el.id === contact)[0]
     })
@@ -106,27 +105,42 @@ export default class AddressBook extends Component {
   }
 
   handleEditAddress(e) {
-    let contactId = document.querySelector('#editContactContainer').dataset.contact
-
-    this.setState({
-      snackbarOpen: true,
-      snackbarMessage: 'Saving contact',
-      contacts: this.editAddress(contactId, e)
-    }, () => this.saveToFile())
+    if(!e.name || !e.email)
+    {
+        this.setState({
+          snackbarOpen: true,
+          snackbarMessage: 'Contact not saved'
+        });
+        return false;
+    }
+    else
+    {
+        let contactId = document.querySelector('#editContactContainer').dataset.contact
+        
+        this.setState({
+          snackbarOpen: true,
+          snackbarMessage: 'Saving contact',
+          contacts: this.editAddress(contactId, e)
+        }, () => this.saveToFile());
+        return true;
+    }
   }
 
-  handleAddAddress(newContact) {
-    if (newContact) {
+  handleAddAddress(newContact) {    
+    if (newContact && newContact.name && newContact.email)
+    {
       this.setState({
         snackbarOpen: true,
         snackbarMessage: 'Saving new contact',
         contacts: this.addAddress(newContact)
-      }, () => this.saveToFile())
+      }, () => this.saveToFile());
+      return true;
     } else {
       this.setState({
         snackbarOpen: true,
         snackbarMessage: 'Contact not saved'
       });
+      return false;
     }
   }
 

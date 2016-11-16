@@ -72,17 +72,17 @@ export default class AddAddress extends Component {
           <CardText>
             <div>
               <MetaWidget
-                                toInspect={this.state.contact}
-                                inspector={
-                                    new metawidget.inspector.CompositeInspector([
-                                        new metawidget.inspector.JsonSchemaInspector(this.props.schema),
-                                        new metawidget.inspector.PropertyTypeInspector()
-                                    ])
-                                }
-                                widgetBuilder={new mwMatUI.ReactWidgetBuilder({saveFunc:(e) => {this.props.handleAddAddress(e); this.props.handleRoute({currentTarget:{dataset:{route:"addressList"} }, preventDefault:()=>{}});}})}
-                                layout={new metawidget.react.layout.ReactRenderDecorator (new metawidget.layout.SimpleLayout()) }
-                                appendWidgetProcessors={new mwMatUI.ReactBindingProcessor()}
-                                />
+                toInspect={this.state.contact}
+                inspector={
+                    new metawidget.inspector.CompositeInspector([
+                        new metawidget.inspector.JsonSchemaInspector(this.props.schema),
+                        new metawidget.inspector.PropertyTypeInspector()
+                    ])
+                }
+                widgetBuilder={new mwMatUI.ReactWidgetBuilder({saveFunc:(e) => {if(this.props.handleAddAddress(e)) this.props.handleRoute({currentTarget:{dataset:{route:"addressList"} }, preventDefault:()=>{}});}})}
+                layout={new metawidget.react.layout.ReactRenderDecorator (new metawidget.layout.SimpleLayout()) }
+                appendWidgetProcessors={new mwMatUI.ReactBindingProcessor()}
+                />
             </div>
             <Subheader
               style={{ color: '#00BCD4' }}

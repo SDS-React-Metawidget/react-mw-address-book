@@ -28,6 +28,7 @@ export default class EditAddress extends Component {
     }
 
     render() {
+        var propsCopy = {...this.props.address};
         return (
             <div
                 style={{padding: 20, textAlign: 'center'}}
@@ -63,14 +64,14 @@ export default class EditAddress extends Component {
                     <CardText>
                         <div>
                             <MetaWidget
-                                toInspect={this.props.address}
+                                toInspect={propsCopy}
                                 inspector={
                                     new metawidget.inspector.CompositeInspector([
                                         new metawidget.inspector.JsonSchemaInspector(this.props.schema),
                                         new metawidget.inspector.PropertyTypeInspector()
                                     ])
                                 }
-                                widgetBuilder={new mwMatUI.ReactWidgetBuilder({saveFunc:this.props.handleEditAddress})}
+                                widgetBuilder={new mwMatUI.ReactWidgetBuilder({saveFunc:(e)=>{if(this.props.handleEditAddress(e))Object.assign(this.props.address,propsCopy);}})}
                                 layout={new metawidget.react.layout.ReactRenderDecorator (new metawidget.layout.SimpleLayout()) }
                                 appendWidgetProcessors={new mwMatUI.ReactBindingProcessor()}
                                 readOnly={!this.state.edit}

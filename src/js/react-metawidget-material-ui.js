@@ -6,9 +6,8 @@ import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/image/edit';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import ContentSave from 'material-ui/svg-icons/content/save'
 
 var metawidget = require('metawidget');
 
@@ -67,14 +66,14 @@ mwMatUI.ReactWidgetBuilder = function (config) {
                         type: (e) => e === 'function'
                     },
                     result: [
-                        FloatingActionButton,
+                        RaisedButton,
                         {
                             onClick: ()=>{
                                 mw.save();
                                 config.saveFunc(mw.toInspect);
                             },
-                            children:<ContentSave />
-                            
+                            label:"Save",
+                            primary:true,
                         }
                     ]
                 },

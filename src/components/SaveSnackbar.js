@@ -14,7 +14,6 @@ export default class SaveSnackbar extends Component {
         super(props)
 
         this.handleSnackbarClose = this.handleSnackbarClose.bind(this)
-        this.handleDoneTimeout = this.handleDoneTimeout.bind(this)
 
         this.state = {
             open: this.props.open,
@@ -27,21 +26,10 @@ export default class SaveSnackbar extends Component {
                         color={grey50}
                         style={{marginRight: 10}}
                     />
-                ),
-                done: (
-                    <Done
-                        key="done"
-                        color={grey50}
-                        style={{marginRight: 10}}
-                    />
                 )
             },
             icon: ''
         }
-    }
-
-    componentWillMount() {
-        this.doneTimeout = ''
     }
 
     componentWillReceiveProps(nextProps) {
@@ -51,27 +39,10 @@ export default class SaveSnackbar extends Component {
                 message: nextProps.message,
                 icon: this.state.icons.loop
             })
-
-        if (this.state.open || nextProps.open) {
-            clearTimeout(this.doneTimeout)
-            this.createDoneTimeout()
-        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         return nextState !== this.state
-    }
-
-    createDoneTimeout() {
-        this.doneTimeout = setTimeout(this.handleDoneTimeout, 1000)
-    }
-
-    handleDoneTimeout() {
-        this.setState({
-            open: true,
-            message: 'Done',
-            icon: this.state.icons.done
-        }, () => setTimeout(this.handleSnackbarClose, 2000))
     }
 
     handleSnackbarClose(e) {
@@ -97,7 +68,7 @@ export default class SaveSnackbar extends Component {
                         {this.state.message}
                     </div>
                 )}
-                autoHideDuration={10000}
+                autoHideDuration={1000}
                 onRequestClose={this.handleSnackbarClose}
             />
         )
