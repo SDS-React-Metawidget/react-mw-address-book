@@ -66,8 +66,8 @@ export default class EditAddress extends Component {
                                 toInspect={this.props.address}
                                 inspector={
                                     new metawidget.inspector.CompositeInspector([
-                                        new metawidget.inspector.PropertyTypeInspector(),
-                                        new metawidget.inspector.JsonSchemaInspector(this.props.schema)
+                                        new metawidget.inspector.JsonSchemaInspector(this.props.schema),
+                                        new metawidget.inspector.PropertyTypeInspector()
                                     ])
                                 }
                                 widgetBuilder={new mwMatUI.ReactWidgetBuilder({saveFunc:this.props.handleEditAddress})}

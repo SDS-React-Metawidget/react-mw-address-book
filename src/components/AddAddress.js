@@ -9,7 +9,7 @@ import TextField from 'material-ui/TextField';
 import Subheader from 'material-ui/Subheader';
 
 import {MetaWidget, metawidget}  from '../js/react-metawidget.js';
-import ReactWidgetBuilder from '../js/react-metawidget-material-ui.js';
+import mwMatUI from '../js/react-metawidget-material-ui.js';
 
 export default class AddAddress extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ export default class AddAddress extends Component {
         id: this.generateId(),
         name: '',
         email: '',
-        phone: '',
+        phoneNumber: '',
         notes: '',
       }
     }
@@ -43,15 +43,6 @@ export default class AddAddress extends Component {
     this.setState({
       contact: newContact
     });
-  }
-
-  componentWillUnmount() {
-    if (this.state.contact.name !== '' && this.state.contact.email !== '') {
-      this.props.handleAddAddress(this.state.contact);
-    }
-    else {
-      this.props.handleAddAddress();
-    }
   }
 
   render() {
@@ -81,16 +72,17 @@ export default class AddAddress extends Component {
           <CardText>
             <div>
               <MetaWidget
-                inspector={
-                    new metawidget.inspector.CompositeInspector([
-                        new metawidget.inspector.PropertyTypeInspector(),
-                        new metawidget.inspector.JsonSchemaInspector(this.props.schema)
-                    ])
-            }
-                widgetBuilder={new ReactWidgetBuilder({saveFunc:this.handleChange})}
-                layout={new metawidget.react.layout.ReactRenderDecorator (new metawidget.layout.SimpleLayout()) }
-                appendWidgetProcessors={new metawidget.react.widgetprocessor.ReactBindingProcessor()}
-                />
+                                toInspect={this.state.contact}
+                                inspector={
+                                    new metawidget.inspector.CompositeInspector([
+                                        new metawidget.inspector.JsonSchemaInspector(this.props.schema),
+                                        new metawidget.inspector.PropertyTypeInspector()
+                                    ])
+                                }
+                                widgetBuilder={new mwMatUI.ReactWidgetBuilder({saveFunc:(e) => {this.props.handleAddAddress(e); this.props.handleRoute({currentTarget:{dataset:{route:"addressList"} }, preventDefault:()=>{}});}})}
+                                layout={new metawidget.react.layout.ReactRenderDecorator (new metawidget.layout.SimpleLayout()) }
+                                appendWidgetProcessors={new mwMatUI.ReactBindingProcessor()}
+                                />
             </div>
             <Subheader
               style={{ color: '#00BCD4' }}

@@ -58,6 +58,7 @@ export default class AddressBook extends Component {
             <AddAddress
                 address={{}}
                 handleAddAddress={this.handleAddAddress}
+                handleRoute={this.handleRoute}
                 schema={this.props.schema}
             />
           ),
