@@ -49,7 +49,6 @@ export default class ContactSearch extends Component {
                 }}
             >
                 <Search
-                    id="contactSearch"
                     style={{
                         width: 30,
                         height: 30,
@@ -58,6 +57,7 @@ export default class ContactSearch extends Component {
                 />
 
                 <TextField
+                    id="contactSearch"
                     style={{
                         flexGrow: 2
                     }}

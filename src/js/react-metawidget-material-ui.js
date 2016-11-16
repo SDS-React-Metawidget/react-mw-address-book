@@ -70,7 +70,7 @@ mwMatUI.ReactWidgetBuilder = function (config) {
                         {
                             onClick: ()=>{
                                 mw.save();
-                                config.saveFunc();
+                                config.saveFunc(mw.toInspect);
                             }
                             
                         }
@@ -137,14 +137,63 @@ mwMatUI.ReactBindingProcessor.prototype.processWidget = function (widget, elemen
             React.cloneElement(widget.props.children, {}, (
                 React.cloneElement(widget.props.children.props.children, {
                     onChange: function (e) {
-                        t.holder[metawidget.util.appendPath(attributes, mw)] = e;
+                        t.holder[metawidget.util.appendPath(attributes, mw)] = e.target.value;
                         console.log(t.holder);
                     }
                 })
             ))
         ));
     }
-    console.log(widget.props.children.props.children);
     return widget;
+};
+
+function copyAcross(toThis, fromThis) {
+    for ( var bigKey in fromThis ) {
+        var splitKey = metawidget.util.splitPath(bigKey);
+
+        //Nested widgets will have more than one name
+        if (splitKey.names.length > 1) {
+            //Check if nestedWidget object exists
+            //If not, create 'just in time'
+            if (toThis[splitKey.names.slice(0, 1)] === undefined)
+                toThis[splitKey.names.slice(0, 1)] = {};
+
+            //Set toInspect to the nestedWidget object
+            var toInspect = toThis[splitKey.names.slice(0, 1)];
+
+            //Recreate path string, just one deeper
+            var string = splitKey.type + "";
+            splitKey.names.splice(0, 1);
+            splitKey.names.forEach(function (val) {
+                string += "." + val;
+            });
+
+            //Create object using path string and value
+            var obj = {};
+            obj[string] = fromThis[bigKey];
+
+            //Recurse this function with nestedWidget object
+            //and deeper path
+            copyAcross(toInspect, obj);
+        }
+        else {
+            //Works when toInspect is already populated
+            //but not guaranteed, so have to use nested logic to manually
+            //set and check each level
+            //var toInspect = metawidget.util.traversePath(toThis, splitKey.names.slice(0, splitKey.names.length-1));
+
+            var toInspect = toThis;
+            if (toInspect === undefined)
+                toInspect = {};
+
+            var name = splitKey.names[splitKey.names.length - 1];
+            //Have to use [], else it sets by value, not reference
+            toInspect[name] = fromThis[bigKey];
+        }
+    }
+}
+mwMatUI.ReactBindingProcessor.prototype.save = function (mw) {
+    copyAcross(mw.toInspect, this.holder);
+    return true;
 };
 export default mwMatUI

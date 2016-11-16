@@ -105,14 +105,12 @@ export default class AddressBook extends Component {
   }
 
   handleEditAddress(e) {
-    console.log(e);
-    
     let contactId = document.querySelector('#editContactContainer').dataset.contact
 
     this.setState({
       snackbarOpen: true,
       snackbarMessage: 'Saving contact',
-      contacts: this.editAddress(contactId, e.name, e.value)
+      contacts: this.editAddress(contactId, e)
     }, () => this.saveToFile())
   }
 
@@ -131,15 +129,13 @@ export default class AddressBook extends Component {
     }
   }
 
-  editAddress(contactId, fieldName, fieldValue) {
+  editAddress(contactId, addressValue) {
     let contacts = this.state.contacts.map((address) => {
       if (address.id === contactId)
-        address[fieldName] = fieldValue;
+        address = addressValue;
       return address
     });
-    if (fieldName === 'name')
-      return contacts.sort(this.compareAddresses);
-    return contacts
+    return contacts.sort(this.compareAddresses);
   }
 
   addAddress(newContact) {

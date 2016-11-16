@@ -321,7 +321,8 @@ metawidget.react.ReactMetawidget = function (element, config) {
     this.save = function () {
 
         return _pipeline.getWidgetProcessor(function (widgetProcessor) {
-            return widgetProcessor instanceof metawidget.react.widgetprocessor.ReactBindingProcessor;
+            var saveFunction = widgetProcessor.save;
+            return (typeof saveFunction === 'function');
         }).save(t);
     };
 }
