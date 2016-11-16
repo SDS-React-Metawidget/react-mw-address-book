@@ -6,13 +6,14 @@ import React, { Component } from 'react';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
-import Subheader from 'material-ui/Subheader';
+import RaisedButton from 'material-ui/RaisedButton';
 
 export default class AddAddress extends Component {
     constructor(props) {
         super(props);
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleSave = this.handleSave.bind(this);
 
         this.state = {
             contact: {
@@ -34,6 +35,16 @@ export default class AddAddress extends Component {
         return 'c' + pad;
     }
 
+    handleSave(e) {
+        e.persist();
+        if (this.state.contact.name !== '' && this.state.contact.email !== '') {
+            this.props.handleRoute(e, () => this.props.handleAddAddress(this.state.contact));
+        }
+        else {
+            this.props.handleAddAddress();
+        }
+    }
+
     handleChange(e) {
         let newContact = this.state.contact;
         newContact[e.currentTarget.name] = e.currentTarget.value;
@@ -42,14 +53,14 @@ export default class AddAddress extends Component {
         });
     }
 
-    componentWillUnmount() {
-        if (this.state.contact.name !== '' && this.state.contact.email !== '') {
-            this.props.handleAddAddress(this.state.contact);
-        }
-        else {
-            this.props.handleAddAddress();
-        }
-    }
+    // componentWillUnmount() {
+    //     if (this.state.contact.name !== '' && this.state.contact.email !== '') {
+    //         this.props.handleAddAddress(this.state.contact);
+    //     }
+    //     else {
+    //         this.props.handleAddAddress();
+    //     }
+    // }
 
     render() {
         return (
@@ -61,8 +72,9 @@ export default class AddAddress extends Component {
                 <Avatar
                     src={
                         `https://api.adorable.io/avatars/128/${
-                            this.refs.email === undefined ? 'newContact' : this.refs.email.input.value
-                            }.png`
+                            this.email === undefined ?
+                                'newContact' : this.email.input.value
+                        }.png`
                     }
                     size={128}
                 />
@@ -80,6 +92,7 @@ export default class AddAddress extends Component {
                             <TextField
                                 floatingLabelText="Name"
                                 defaultValue={this.state.contact.name}
+                                ref={name => this.name = name}
                                 name="name"
                                 onChange={this.handleChange}
                             />
@@ -89,7 +102,7 @@ export default class AddAddress extends Component {
                             <TextField
                                 floatingLabelText="Email address"
                                 defaultValue={this.state.contact.email}
-                                ref="email"
+                                ref={email => this.email = email}
                                 name="email"
                                 onChange={this.handleChange}
                             />
@@ -99,6 +112,7 @@ export default class AddAddress extends Component {
                             <TextField
                                 floatingLabelText="Phone number"
                                 defaultValue={this.state.contact.phone}
+                                ref={phone => this.phone = phone}
                                 name="phone"
                                 onChange={this.handleChange}
                             />
@@ -109,17 +123,21 @@ export default class AddAddress extends Component {
                                 floatingLabelStyle={{ left: 0 }}
                                 floatingLabelText="Notes"
                                 defaultValue={this.state.contact.notes}
+                                ref={notes => this.notes = notes}
                                 name="notes"
                                 onChange={this.handleChange}
                                 multiLine
                             />
                         </div>
 
-                        <Subheader
-                            style={{ color: '#00BCD4' }}
-                        >
-                            New contacts need a name and email
-                        </Subheader>
+                        <RaisedButton
+                            name="saveButton"
+                            data-route="addressList"
+                            style={{ marginTop: 10 }}
+                            label="Save"
+                            primary
+                            onClick={this.handleSave}
+                        />
                     </CardText>
                 </Card>
             </div>

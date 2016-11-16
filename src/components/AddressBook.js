@@ -57,6 +57,7 @@ export default class AddressBook extends Component {
                         <AddAddress
                             address={{}}
                             handleAddAddress={this.handleAddAddress}
+                            handleRoute={this.handleRoute}
                         />
                     ),
                     title: () => 'New Contact',
@@ -74,14 +75,18 @@ export default class AddressBook extends Component {
         })
     }
 
-    handleRoute(e) {
-        e.preventDefault()
-        let route = e.currentTarget.dataset.route
-        let contact = e.currentTarget.dataset.contact
+    handleRoute(e, callback) {
+        e.preventDefault();
+        let route = e.currentTarget.dataset.route;
+        let contact = e.currentTarget.dataset.contact;
         this.setState({
             snackbarOpen: false,
             activeRoute: this.state.routes[route],
             activeContact: this.state.contacts.filter((el) => el.id === contact)[0]
+        }, () => {
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
         })
     }
 
@@ -105,7 +110,7 @@ export default class AddressBook extends Component {
     handleEditAddress(e) {
         e.preventDefault()
 
-        let contactId = document.querySelector('#editContactContainer').dataset.contact
+        let contactId = document.querySelector('#editContactContainer').dataset.contact;
 
         this.setState({
             snackbarOpen: true,
