@@ -17,7 +17,7 @@ def assertGreaterThanEqual(actual, lower_bound):
     assert actual >= lower_bound, "Expected Greater Than Equal: %s, Actual: %s" % (lower_bound, actual)
 
 def assertExists(item):
-    assert item and item != ""
+    assert item and item != "", "Item: %s does not exist" % item
 
 def assertNotExists(item):
-    assert not item or item == ""
+    assert not item or item == "", "Item: %s exists" % item
