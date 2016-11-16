@@ -40,6 +40,7 @@ export default class AddressBook extends Component {
                         <EditAddress
                             address={this.state.activeContact}
                             handleEditAddress={this.handleEditAddress}
+                            handleRoute={this.handleRoute}
                         />
                     ),
                     title: () => `${this.state.activeContact.name}`,
@@ -91,8 +92,8 @@ export default class AddressBook extends Component {
     }
 
     handleDeleteContact(e) {
-        e.preventDefault()
-        let contactId = document.querySelector('#editContactContainer').dataset.contact
+        e.preventDefault();
+        let contactId = document.querySelector('#editContactContainer').dataset.contact;
         this.setState({
             snackbarOpen: true,
             snackbarMessage: 'Deleting contact',
@@ -107,16 +108,19 @@ export default class AddressBook extends Component {
         }, () => this.saveToFile())
     }
 
-    handleEditAddress(e) {
-        e.preventDefault()
-
-        let contactId = document.querySelector('#editContactContainer').dataset.contact;
-
-        this.setState({
-            snackbarOpen: true,
-            snackbarMessage: 'Saving contact',
-            contacts: this.editAddress(contactId, e.currentTarget.name, e.currentTarget.value)
-        }, () => this.saveToFile())
+    handleEditAddress(contact) {
+        if (contact) {
+            this.setState({
+                snackbarOpen: true,
+                snackbarMessage: 'Saving contact',
+                contacts: this.editAddress(contact)
+            }, () => this.saveToFile())
+        } else {
+            this.setState({
+                snackbarOpen: true,
+                snackbarMessage: 'Could not save contact'
+            });
+        }
     }
 
     handleAddAddress(newContact) {
@@ -134,13 +138,16 @@ export default class AddressBook extends Component {
         }
     }
 
-    editAddress(contactId, fieldName, fieldValue) {
+    editAddress(contact) {
+        let nameChanged = false;
         let contacts = this.state.contacts.map((address) => {
-            if (address.id === contactId)
-                address[fieldName] = fieldValue;
-            return address
+            if (address.id === contact.id) {
+                if (contact.name !== address.name) nameChanged = true;
+                return contact;
+            }
+            return address;
         });
-        if (fieldName === 'name')
+        if (nameChanged)
             return contacts.sort(this.compareAddresses);
         return contacts
     }

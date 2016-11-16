@@ -36,7 +36,6 @@ export default class AddAddress extends Component {
     }
 
     handleSave(e) {
-        e.persist();
         if (this.state.contact.name !== '' && this.state.contact.email !== '') {
             this.props.handleRoute(e, () => this.props.handleAddAddress(this.state.contact));
         }
@@ -52,15 +51,6 @@ export default class AddAddress extends Component {
             contact: newContact
         });
     }
-
-    // componentWillUnmount() {
-    //     if (this.state.contact.name !== '' && this.state.contact.email !== '') {
-    //         this.props.handleAddAddress(this.state.contact);
-    //     }
-    //     else {
-    //         this.props.handleAddAddress();
-    //     }
-    // }
 
     render() {
         return (
