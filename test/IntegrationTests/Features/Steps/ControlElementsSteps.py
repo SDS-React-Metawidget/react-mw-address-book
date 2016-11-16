@@ -10,6 +10,14 @@ def click_address_item(context, data_id):
     address_list_item.click()
     time.sleep(1)
 
+@when('the address list contact "{contact_name}" is clicked')
+def click_contact_item(context, contact_name):
+    contact_item = context.server.find_element_by_xpath("//div[@class='address-list-item']//span[text()='" + contact_name + "']")
+    assertExists(contact_item)
+    context.contact_name = contact_name
+    contact_item.click()
+    time.sleep(1)
+
 @when('the back button is clicked')
 def click_back_button(context):
     back_button = context.server.find_element_by_xpath("//button[@data-route='addressList']")
@@ -21,5 +29,9 @@ def click_back_button(context):
 def search_using_text(context, search_text):
     search_input_field = context.server.find_element_by_xpath("//input[@id='contactSearch']")
     assertExists(search_input_field)
+    search_input_field.send_keys("\b")
+    search_input_field.send_keys("\b")
+    search_input_field.send_keys("\b")
+    time.sleep(0.2)
     search_input_field.send_keys(str(search_text))
     time.sleep(1)

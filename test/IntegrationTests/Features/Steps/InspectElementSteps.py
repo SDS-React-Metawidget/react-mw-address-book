@@ -26,8 +26,8 @@ def details_page_is_focus(context):
 
 @then('the address list yields {num} item/s')
 def check_visibile_contacts(context, num):
-    pass
+    context.address_list_items = context.server.find_element_by_xpath(".//*[@class='address-list-item']//span")
 
 @then('the address list contact {item} shall be "{name}"')
 def check_contact_item(context, item, name):
-    pass
+    assertEquals(context.address_list_items.text, name)
