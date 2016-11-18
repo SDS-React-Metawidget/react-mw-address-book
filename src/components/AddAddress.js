@@ -37,7 +37,7 @@ export default class AddAddress extends Component {
 
     handleSave(e) {
         if (this.state.contact.name !== '' && this.state.contact.email !== '') {
-            this.props.handleRoute(e, () => this.props.handleAddAddress(this.state.contact));
+            this.props.handleAddAddress(this.state.contact);
         }
         else {
             this.props.handleAddAddress();

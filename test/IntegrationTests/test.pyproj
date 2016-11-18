@@ -13,6 +13,9 @@
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterId />
     <InterpreterVersion />
+    <CommandLineArguments>
+    </CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -35,7 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Features\AddressBookMainPage.feature" />
-    <Content Include="Features\ItemManipulation.feature" />
+    <Content Include="Features\ZItemManipulation.feature" />
     <Content Include="Features\Search.feature" />
     <Content Include="Features\UIFlow.feature" />
   </ItemGroup>

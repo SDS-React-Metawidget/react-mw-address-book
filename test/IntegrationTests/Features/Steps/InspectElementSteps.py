@@ -31,3 +31,27 @@ def check_visibile_contacts(context, num):
 @then('the address list contact {item} shall be "{name}"')
 def check_contact_item(context, item, name):
     assertEquals(context.address_list_items.text, name)
+
+@then('the address list contact has been changed correctly')
+def check_contact_list_item(context):
+    context.execute_steps(u'''When the back button is clicked''')
+    contact = context.server.find_element_by_xpath("//div[@class='address-list-item']//span[text()='" + context.new_name + "']")
+    assertExists(contact)
+    context.execute_steps(u'''Then the contact no longer exists''')
+    
+@then('the contact no longer exists')
+def check_contact_deleted(context):
+    try:
+        contact = context.server.find_element_by_xpath("//div[@class='address-list-item']//span[text()='" + context.contact_name + "']")
+        raise
+    except:
+        pass
+
+@then('the address list contact shall be added to the address book')
+def check_contact_added(context):
+    context.execute_steps(u'''When the back button is clicked''')
+    contact = context.server.find_element_by_xpath("//div[@class='address-list-item']//span[text()='" + context.new_name + "']")
+    email = context.server.find_element_by_xpath("//div[@class='address-list-item']//span[text()='" + context.email + "']")
+
+    assertExists(contact)
+    assertExists(email)

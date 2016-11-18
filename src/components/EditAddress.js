@@ -48,7 +48,7 @@ export default class EditAddress extends Component {
 
     handleSave(e) {
         if (this.state.contact.name !== '' && this.state.contact.email !== '') {
-            this.props.handleRoute(e, () => this.props.handleEditAddress(this.state.contact));
+            this.props.handleEditAddress(this.state.contact);
         }
         else {
             this.props.handleEditAddress();
